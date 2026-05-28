@@ -88,7 +88,7 @@ Stargazing Labs
 stargazer@stargazinglabs.io
 
 **Homepage URL**
-https://github.com/rkamalapuram/dailyHoroscope
+https://github.com/ravitejakamalapuram/StellarTab
 
 ## Version History
 
