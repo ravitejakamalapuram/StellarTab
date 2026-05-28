@@ -48,7 +48,7 @@ English
 | Store Icon | 128×128 PNG | ✅ Ready | `icons/icon-128.png` |
 | Screenshot 1 | 1280×800 | ✅ Ready (Generated) | `newtab_onboarding_preview.png` |
 | Screenshot 2 | 1280×800 | ✅ Ready (Generated) | `newtab_dashboard_preview.png` |
-| Small Promo Tile | 440×280 | ⬜ Not created | |
+| Small Promo Tile | 440×280 | ✅ Ready (Generated) | `newtab_promo_tile.png` |
 
 ### Screenshot Notes
 - Screenshot 1: Shows the clean and minimal glassmorphic onboarding screen asking for the user's name and zodiac sign.

@@ -1,5 +1,5 @@
 // StellarTab — New Tab Dashboard Controller
-import { ZODIAC_SIGNS, generateHoroscope } from './horoscope-engine.js';
+import { ZODIAC_SIGNS, generateHoroscope, TRANSLATIONS } from './horoscope-engine.js';
 
 // Storage polyfill for offline browser testing outside of Chrome Extension context
 const storage = (window.chrome && chrome.storage && chrome.storage.local) ? chrome.storage.local : {
@@ -32,6 +32,8 @@ let state = {
   zodiacSign: '',
   theme: 'nebula',
   searchEngine: 'google',
+  language: 'en',
+  showVedic: true,
   activeTab: 'daily',
   currentRotation: 0,
   wheelDragging: false,
@@ -115,20 +117,486 @@ const settingsZodiac = document.getElementById('settings-zodiac');
 const settingsSearch = document.getElementById('settings-search');
 const settingsTheme = document.getElementById('settings-theme');
 const resetAppBtn = document.getElementById('reset-app-btn');
+const onboardingLanguageSelect = document.getElementById('onboarding-language-select');
+const settingsLanguage = document.getElementById('settings-language');
+const settingsShowVedic = document.getElementById('settings-show-vedic');
+const vedicTimesCard = document.getElementById('vedic-times-card');
+const rahuKalamVal = document.getElementById('rahu-kalam-val');
+const yamagandamVal = document.getElementById('yamagandam-val');
+
+// UI Translation Dictionary for dynamic localization
+const UI_TRANSLATIONS = {
+  en: {
+    onboardingSubtitle: "Connect with the cosmic rhythms of your life",
+    onboardingNameLbl: "What shall the cosmos call you?",
+    onboardingNamePlaceholder: "Enter your name...",
+    onboardingLangLbl: "Preferred Language",
+    onboardingSignLbl: "Select your celestial birth sign",
+    onboardingSubmitBtn: "Step into the Cosmos",
+    searchPlaceholder: "Search the stellar expanse...",
+    wheelTitle: "Celestial Zodiac Wheel",
+    wheelInstruction: "Drag or click to spin & explore other signs",
+    tabDaily: "Today",
+    tabWeekly: "This Week",
+    tabMonthly: "This Month",
+    catLove: "❤️ Love & Relationship",
+    catCareer: "💼 Career & Focus",
+    catWellness: "🌱 Wellness & Energy",
+    catLuck: "✨ Celestial Luck",
+    moodTitle: "Cosmic Alignment Indices",
+    moodLove: "Love",
+    moodCareer: "Career",
+    moodWellness: "Wellness",
+    moodLuck: "Luck",
+    luckyNumber: "Lucky Number",
+    luckyColor: "Lucky Color",
+    powerHour: "Power Hour",
+    btnConstellation: "Constellation",
+    gameTitle: "Star Alignment",
+    gameInstruction: "Connect the glowing stars in sequence to reveal your daily insight.",
+    gameSuccessTitle: "✨ Constellation Connected ✨",
+    settingsTitle: "Celestial Options",
+    settingsNameLbl: "Stargazer Name",
+    settingsZodiacLbl: "Zodiac Sign",
+    settingsSearchLbl: "Search Engine",
+    settingsThemeLbl: "Dashboard Theme",
+    settingsLangLbl: "Language",
+    settingsShowVedicLbl: "Enable Vedic Muhurthas (Admin)",
+    settingsSaveBtn: "Save Changes",
+    settingsResetBtn: "Reset Profile",
+    vedicTitle: "Vedic Muhurthas",
+    rahuKalamLbl: "Rahu Kalam",
+    yamagandamLbl: "Yamagandam",
+    activeNow: "Active Now",
+    welcomeBack: "Welcome back, {name}",
+    elementLbl: "Element: {val} | Ruling Planet: {planet}",
+    alertSign: "Please select your zodiac star sign.",
+    resetConfirm: "Are you sure you want to reset your cosmic profile?"
+  },
+  te: {
+    onboardingSubtitle: "మీ జీవితంలోని ఖగోళ లయలతో అనుసంధానించబడండి",
+    onboardingNameLbl: "విశ్వం మిమ్మల్ని ఏమని పిలవాలి?",
+    onboardingNamePlaceholder: "మీ పేరును నమోదు చేయండి...",
+    onboardingLangLbl: "ప్రాధాన్య భాష",
+    onboardingSignLbl: "మీ ఖగోళ జన్మ రాశిని ఎంచుకోండి",
+    onboardingSubmitBtn: "విశ్వంలోకి అడుగు పెట్టండి",
+    searchPlaceholder: "నక్షత్ర విశ్వంలో శోధించండి...",
+    wheelTitle: "ఖగోళ రాశిచక్ర చక్రం",
+    wheelInstruction: "ఇతర రాశులను అన్వేషించడానికి తిప్పండి లేదా క్లిక్ చేయండి",
+    tabDaily: "ఈ రోజు",
+    tabWeekly: "ఈ వారం",
+    tabMonthly: "ఈ నెల",
+    catLove: "❤️ ప్రేమ & బంధాలు",
+    catCareer: "💼 వృత్తి & దృష్టి",
+    catWellness: "🌱 ఆరోగ్యం & శక్తి",
+    catLuck: "✨ ఖగోళ అదృష్టం",
+    moodTitle: "ఖగోళ సమలేఖన సూచికలు",
+    moodLove: "ప్రేమ",
+    moodCareer: "వృత్తి",
+    moodWellness: "ఆరోగ్యం",
+    moodLuck: "అదృష్టం",
+    luckyNumber: "అదృష్ట సంఖ్య",
+    luckyColor: "అదృష్ట రంగు",
+    powerHour: "శక్తి గంట",
+    btnConstellation: "నక్షత్రరాశి",
+    gameTitle: "నక్షత్రాల సమలేఖనం",
+    gameInstruction: "మీ దినసరి అంతర్దృష్టిని తెలుసుకోవడానికి మెరుస్తున్న నక్షత్రాలను క్రమంలో కలపండి.",
+    gameSuccessTitle: "✨ నక్షత్రరాశి అనుసంధానించబడింది ✨",
+    settingsTitle: "ఖగోళ ఎంపికలు",
+    settingsNameLbl: "నక్షత్ర వీక్షకుడి పేరు",
+    settingsZodiacLbl: "రాశి చక్రం",
+    settingsSearchLbl: "శోధన యంత్రం",
+    settingsThemeLbl: "డాష్‌బోర్డ్ థీమ్",
+    settingsLangLbl: "భాష",
+    settingsShowVedicLbl: "వేద ముహూర్తాలను ప్రారంభించండి (అడ్మిన్)",
+    settingsSaveBtn: "మార్పులను సేవ్ చేయి",
+    settingsResetBtn: "ప్రొఫైల్ రీసెట్ చేయి",
+    vedicTitle: "వేద ముహూర్తాలు",
+    rahuKalamLbl: "రాహు కాలం",
+    yamagandamLbl: "యమగండం",
+    activeNow: "ప్రస్తుతం యాక్టివ్",
+    welcomeBack: "తిరిగి స్వాగతం, {name}",
+    elementLbl: "మూలకం: {val} | పాలక గ్రహం: {planet}",
+    alertSign: "దయచేసి మీ రాశిచక్రాన్ని ఎంచుకోండి.",
+    resetConfirm: "మీరు ఖచ్చితంగా మీ ప్రొఫైల్‌ను రీసెట్ చేయాలనుకుంటున్నారా?"
+  },
+  hi: {
+    onboardingSubtitle: "अपने जीवन के ब्रह्मांडीय चक्रों से जुड़ें",
+    onboardingNameLbl: "ब्रह्मांड आपको किस नाम से पुकारे?",
+    onboardingNamePlaceholder: "अपना नाम दर्ज करें...",
+    onboardingLangLbl: "पसंदीदा भाषा",
+    onboardingSignLbl: "अपनी खगोलीय जन्म राशि चुनें",
+    onboardingSubmitBtn: "ब्रह्मांड में कदम रखें",
+    searchPlaceholder: "तारकीय ब्रह्मांड में खोजें...",
+    wheelTitle: "खगोलीय राशि चक्र",
+    wheelInstruction: "घुमाने और अन्य राशियों का पता लगाने के लिए खींचें या क्लिक करें",
+    tabDaily: "आज",
+    tabWeekly: "इस सप्ताह",
+    tabMonthly: "इस महीने",
+    catLove: "❤️ प्रेम और संबंध",
+    catCareer: "💼 करियर और फोकस",
+    catWellness: "🌱 स्वास्थ्य और ऊर्जा",
+    catLuck: "✨ खगोलीय भाग्य",
+    moodTitle: "ब्रह्मांडीय संरेखण सूचकांक",
+    moodLove: "प्रेम",
+    moodCareer: "करियर",
+    moodWellness: "स्वास्थ्य",
+    moodLuck: "भाग्य",
+    luckyNumber: "भाग्यशाली अंक",
+    luckyColor: "भाग्यशाली रंग",
+    powerHour: "पावर ऑवर",
+    btnConstellation: "नक्षत्र समूह",
+    gameTitle: "तारा संरेखण",
+    gameInstruction: "अपने दैनिक ज्ञान को उजागर करने के लिए चमकते तारों को क्रम में जोड़ें।",
+    gameSuccessTitle: "✨ नक्षत्र संरेखित हुआ ✨",
+    settingsTitle: "खगोलीय विकल्प",
+    settingsNameLbl: "तारादर्शक का नाम",
+    settingsZodiacLbl: "राशि चक्र",
+    settingsSearchLbl: "सर्च इंजन",
+    settingsThemeLbl: "डैशबोर्ड थीम",
+    settingsLangLbl: "भाषा",
+    settingsShowVedicLbl: "वैदिक मुहूर्त सक्षम करें (एडमिन)",
+    settingsSaveBtn: "परिवर्तन सहेजें",
+    settingsResetBtn: "प्रोफ़ाइल रीसेट करें",
+    vedicTitle: "वैदिक मुहूर्त",
+    rahuKalamLbl: "राहू काल",
+    yamagandamLbl: "यमगंडम",
+    activeNow: "अभी सक्रिय",
+    welcomeBack: "वापसी पर स्वागत है, {name}",
+    elementLbl: "तत्व: {val} | स्वामी ग्रह: {planet}",
+    alertSign: "कृपया अपनी जन्म राशि चुनें।",
+    resetConfirm: "क्या आप वाकई अपना प्रोफ़ाइल रीसेट करना चाहते हैं?"
+  },
+  es: {
+    onboardingSubtitle: "Conéctate con los ritmos cósmicos de tu vida",
+    onboardingNameLbl: "¿Cómo te llamará el cosmos?",
+    onboardingNamePlaceholder: "Escribe tu nombre...",
+    onboardingLangLbl: "Idioma Preferido",
+    onboardingSignLbl: "Selecciona tu signo zodiacal celestial",
+    onboardingSubmitBtn: "Paso al Cosmos",
+    searchPlaceholder: "Busca en la extensión estelar...",
+    wheelTitle: "Rueda del Zodíaco Celestial",
+    wheelInstruction: "Arrastra o haz clic para girar y explorar otros signos",
+    tabDaily: "Hoy",
+    tabWeekly: "Esta Semana",
+    tabMonthly: "Este Mes",
+    catLove: "❤️ Amor y Relaciones",
+    catCareer: "💼 Carrera y Enfoque",
+    catWellness: "🌱 Bienestar y Energía",
+    catLuck: "✨ Suerte Celestial",
+    moodTitle: "Índices de Alineación Cósmica",
+    moodLove: "Amor",
+    moodCareer: "Carrera",
+    moodWellness: "Bienestar",
+    moodLuck: "Suerte",
+    luckyNumber: "Número de la Suerte",
+    luckyColor: "Color de la Suerte",
+    powerHour: "Hora de Poder",
+    btnConstellation: "Constelación",
+    gameTitle: "Alineación de Estrellas",
+    gameInstruction: "Conecta las estrellas brillantes en secuencia para revelar tu intuición diaria.",
+    gameSuccessTitle: "✨ Constelación Conectada ✨",
+    settingsTitle: "Opciones Celestiales",
+    settingsNameLbl: "Nombre de Observador",
+    settingsZodiacLbl: "Signo del Zodíaco",
+    settingsSearchLbl: "Motor de Búsqueda",
+    settingsThemeLbl: "Tema del Panel",
+    settingsLangLbl: "Idioma",
+    settingsShowVedicLbl: "Habilitar Vedic Muhurthas (Admin)",
+    settingsSaveBtn: "Guardar Cambios",
+    settingsResetBtn: "Reiniciar Perfil",
+    vedicTitle: "Vedic Muhurthas",
+    rahuKalamLbl: "Rahu Kalam",
+    yamagandamLbl: "Yamagandam",
+    activeNow: "Activo Ahora",
+    welcomeBack: "Bienvenido, {name}",
+    elementLbl: "Elemento: {val} | Planeta Regente: {planet}",
+    alertSign: "Por favor selecciona tu signo zodiacal.",
+    resetConfirm: "¿Estás seguro de que deseas restablecer tu perfil cósmico?"
+  }
+};
+
+// Standard Vedic times data based on days of the week
+const VEDIC_DATA = {
+  0: { // Sunday
+    rahu: { start: { h: 16, m: 30 }, end: { h: 18, m: 0 }, text: "4:30 PM - 6:00 PM" },
+    yama: { start: { h: 12, m: 0 }, end: { h: 13, m: 30 }, text: "12:00 PM - 1:30 PM" }
+  },
+  1: { // Monday
+    rahu: { start: { h: 7, m: 30 }, end: { h: 9, m: 0 }, text: "7:30 AM - 9:00 AM" },
+    yama: { start: { h: 10, m: 30 }, end: { h: 12, m: 0 }, text: "10:30 AM - 12:00 PM" }
+  },
+  2: { // Tuesday
+    rahu: { start: { h: 15, m: 0 }, end: { h: 16, m: 30 }, text: "3:00 PM - 4:30 PM" },
+    yama: { start: { h: 9, m: 0 }, end: { h: 10, m: 30 }, text: "9:00 AM - 10:30 AM" }
+  },
+  3: { // Wednesday
+    rahu: { start: { h: 12, m: 0 }, end: { h: 13, m: 30 }, text: "12:00 PM - 1:30 PM" },
+    yama: { start: { h: 7, m: 30 }, end: { h: 9, m: 0 }, text: "7:30 AM - 9:00 AM" }
+  },
+  4: { // Thursday
+    rahu: { start: { h: 13, m: 30 }, end: { h: 15, m: 0 }, text: "1:30 PM - 3:00 PM" },
+    yama: { start: { h: 6, m: 0 }, end: { h: 7, m: 30 }, text: "6:00 AM - 7:30 AM" }
+  },
+  5: { // Friday
+    rahu: { start: { h: 10, m: 30 }, end: { h: 12, m: 0 }, text: "10:30 AM - 12:00 PM" },
+    yama: { start: { h: 15, m: 0 }, end: { h: 16, m: 30 }, text: "3:00 PM - 4:30 PM" }
+  },
+  6: { // Saturday
+    rahu: { start: { h: 9, m: 0 }, end: { h: 10, m: 30 }, text: "9:00 AM - 10:30 AM" },
+    yama: { start: { h: 13, m: 30 }, end: { h: 15, m: 0 }, text: "1:30 PM - 3:00 PM" }
+  }
+};
+
+// Localizes date ranges displayed in indicator
+function getLocalizedDateRange(sign, lang) {
+  const monthTranslations = {
+    en: { Mar: 'Mar', Apr: 'Apr', May: 'May', June: 'June', July: 'July', Aug: 'Aug', Sept: 'Sept', Oct: 'Oct', Nov: 'Nov', Dec: 'Dec', Jan: 'Jan', Feb: 'Feb' },
+    te: { Mar: 'మార్చి', Apr: 'ఏప్రిల్', May: 'మే', June: 'జూన్', July: 'జూలై', Aug: 'ఆగస్టు', Sept: 'సెప్టెంబర్', Oct: 'అక్టోబర్', Nov: 'నవంబర్', Dec: 'డిసెంబర్', Jan: 'జనవరి', Feb: 'ఫిబ్రవరి' },
+    hi: { Mar: 'मार्च', Apr: 'अप्रैल', May: 'मई', June: 'जून', July: 'जुलाई', Aug: 'अगस्त', Sept: 'सितंबर', Oct: 'अक्टूबर', Nov: 'नवंबर', Dec: 'दिसंबर', Jan: 'जनवरी', Feb: 'फरवरी' },
+    es: { Mar: 'Mar', Apr: 'Abr', May: 'May', June: 'Jun', July: 'Jul', Aug: 'Ago', Sept: 'Sep', Oct: 'Oct', Nov: 'Nov', Dec: 'Dic', Jan: 'Ene', Feb: 'Feb' }
+  };
+  
+  const tMonth = monthTranslations[lang] || monthTranslations['en'];
+  const replaceMonth = (str) => {
+    const parts = str.split(' ');
+    const m = parts[0];
+    const d = parts[1];
+    const transM = tMonth[m] || m;
+    return `${transM} ${d}`;
+  };
+  
+  return `(${replaceMonth(sign.start)} - ${replaceMonth(sign.end)})`;
+}
+
+// Localize all UI texts dynamically
+function applyLanguageUI(lang) {
+  const t = UI_TRANSLATIONS[lang] || UI_TRANSLATIONS['en'];
+  
+  // Onboarding Screen
+  const onboardingSubtitle = document.getElementById('onboarding-subtitle');
+  if (onboardingSubtitle) onboardingSubtitle.textContent = t.onboardingSubtitle;
+  const onboardingNameLbl = document.getElementById('onboarding-name-lbl');
+  if (onboardingNameLbl) onboardingNameLbl.textContent = t.onboardingNameLbl;
+  if (onboardingNameInput) onboardingNameInput.placeholder = t.onboardingNamePlaceholder;
+  const onboardingLangLbl = document.getElementById('onboarding-lang-lbl');
+  if (onboardingLangLbl) onboardingLangLbl.textContent = t.onboardingLangLbl;
+  const onboardingSignLbl = document.getElementById('onboarding-sign-lbl');
+  if (onboardingSignLbl) onboardingSignLbl.textContent = t.onboardingSignLbl;
+  const onboardingSubmitBtn = document.getElementById('onboarding-submit-btn');
+  if (onboardingSubmitBtn) onboardingSubmitBtn.textContent = t.onboardingSubmitBtn;
+  
+  // Search
+  if (searchInput) searchInput.placeholder = t.searchPlaceholder;
+  
+  // Wheel Card
+  const wheelTitle = document.querySelector('.wheel-title');
+  if (wheelTitle) wheelTitle.textContent = t.wheelTitle;
+  const wheelInstruction = document.querySelector('.wheel-instruction');
+  if (wheelInstruction) wheelInstruction.textContent = t.wheelInstruction;
+  
+  // Tabs
+  const tDaily = document.getElementById('tab-daily');
+  if (tDaily) tDaily.textContent = t.tabDaily;
+  const tWeekly = document.getElementById('tab-weekly');
+  if (tWeekly) tWeekly.textContent = t.tabWeekly;
+  const tMonthly = document.getElementById('tab-monthly');
+  if (tMonthly) tMonthly.textContent = t.tabMonthly;
+  
+  // Categories
+  const catHeaders = document.querySelectorAll('.category-block h4');
+  if (catHeaders.length >= 4) {
+    catHeaders[0].textContent = t.catLove;
+    catHeaders[1].textContent = t.catCareer;
+    catHeaders[2].textContent = t.catWellness;
+    catHeaders[3].textContent = t.catLuck;
+  }
+  
+  // Moods
+  const moodHeader = document.querySelector('.mood-meters-container h3');
+  if (moodHeader) moodHeader.textContent = t.moodTitle;
+  
+  const moodLabels = document.querySelectorAll('.mood-lbl');
+  if (moodLabels.length >= 4) {
+    moodLabels[0].textContent = t.moodLove;
+    moodLabels[1].textContent = t.moodCareer;
+    moodLabels[2].textContent = t.moodWellness;
+    moodLabels[3].textContent = t.moodLuck;
+  }
+  
+  // Lucky details
+  const luckyLabels = document.querySelectorAll('.lucky-label');
+  if (luckyLabels.length >= 3) {
+    luckyLabels[0].textContent = t.luckyNumber;
+    luckyLabels[1].textContent = t.luckyColor;
+    luckyLabels[2].textContent = t.powerHour;
+  }
+  
+  // Constellation Game modal
+  const gameBtnSpan = document.querySelector('#trigger-game-btn span');
+  if (gameBtnSpan) gameBtnSpan.textContent = t.btnConstellation;
+  
+  const modalTitle = document.querySelector('#game-modal .modal-title');
+  if (modalTitle) modalTitle.textContent = t.gameTitle;
+  const gameInst = document.querySelector('.game-instruction');
+  if (gameInst) gameInst.textContent = t.gameInstruction;
+  const gameSuccessTitle = document.querySelector('.success-title');
+  if (gameSuccessTitle) gameSuccessTitle.textContent = t.gameSuccessTitle;
+  
+  // Settings modal
+  const settingsTitle = document.querySelector('#settings-modal .modal-title');
+  if (settingsTitle) settingsTitle.textContent = t.settingsTitle;
+  
+  const settingsNameLbl = document.getElementById('settings-name-lbl');
+  if (settingsNameLbl) settingsNameLbl.textContent = t.settingsNameLbl;
+  const settingsZodiacLbl = document.getElementById('settings-zodiac-lbl');
+  if (settingsZodiacLbl) settingsZodiacLbl.textContent = t.settingsZodiacLbl;
+  const settingsSearchLbl = document.getElementById('settings-search-lbl');
+  if (settingsSearchLbl) settingsSearchLbl.textContent = t.settingsSearchLbl;
+  const settingsThemeLbl = document.getElementById('settings-theme-lbl');
+  if (settingsThemeLbl) settingsThemeLbl.textContent = t.settingsThemeLbl;
+  const settingsLangLbl = document.getElementById('settings-lang-lbl');
+  if (settingsLangLbl) settingsLangLbl.textContent = t.settingsLangLbl;
+  const settingsShowVedicLbl = document.getElementById('settings-show-vedic-lbl');
+  if (settingsShowVedicLbl) settingsShowVedicLbl.textContent = t.settingsShowVedicLbl;
+  
+  const settingsSaveBtn = document.getElementById('settings-save-btn');
+  if (settingsSaveBtn) settingsSaveBtn.textContent = t.settingsSaveBtn;
+  const resetBtn = document.getElementById('reset-app-btn');
+  if (resetBtn) resetBtn.textContent = t.settingsResetBtn;
+  
+  // Vedic Card
+  const vedicTitle = document.getElementById('vedic-title');
+  if (vedicTitle) vedicTitle.textContent = t.vedicTitle;
+  const rahuKalamLbl = document.getElementById('rahu-kalam-lbl');
+  if (rahuKalamLbl) rahuKalamLbl.textContent = t.rahuKalamLbl;
+  const yamagandamLbl = document.getElementById('yamagandam-lbl');
+  if (yamagandamLbl) yamagandamLbl.textContent = t.yamagandamLbl;
+  
+  // Rebuild wheel to swap names
+  buildZodiacWheelSVG();
+  
+  // Re-trigger visual updates
+  updateGreeting();
+  updateDateDisplay();
+  updateHoroscopeDisplay();
+  updateVedicTimes();
+}
+
+// Update personalized greeting based on active language
+function updateGreeting() {
+  const t = UI_TRANSLATIONS[state.language] || UI_TRANSLATIONS['en'];
+  const name = state.userName || (state.language === 'en' ? 'Stargazer' : state.language === 'es' ? 'Astrónomo' : state.language === 'hi' ? 'तारादर्शक' : 'నక్షత్ర వీక్షకుడు');
+  const greetingTextEl = document.querySelector('.greeting-text');
+  if (greetingTextEl) {
+    const text = t.welcomeBack.replace('{name}', `<span id="user-display-name">${name}</span>`);
+    greetingTextEl.innerHTML = text;
+  }
+}
+
+// Update localized date display
+function updateDateDisplay() {
+  const now = new Date();
+  const options = { weekday: 'long', month: 'long', day: 'numeric' };
+  dateEl.textContent = now.toLocaleDateString(
+    state.language === 'te' ? 'te-IN' : state.language === 'hi' ? 'hi-IN' : state.language === 'es' ? 'es-ES' : 'en-US',
+    options
+  );
+}
+
+// Toggle Vedic Muhurthas card visibility
+function toggleVedicCard(show) {
+  if (show) {
+    vedicTimesCard.classList.remove('hidden');
+  } else {
+    vedicTimesCard.classList.add('hidden');
+  }
+}
+
+// Verification range checker
+function checkTimeInRange(timeObj) {
+  const now = new Date();
+  const currentMins = now.getHours() * 60 + now.getMinutes();
+  const startMins = timeObj.start.h * 60 + timeObj.start.m;
+  const endMins = timeObj.end.h * 60 + timeObj.end.m;
+  return currentMins >= startMins && currentMins < endMins;
+}
+
+// Calculate and render Vedic Muhurthas (Rahu Kalam and Yamagandam)
+function updateVedicTimes() {
+  if (!state.showVedic) return;
+  
+  const now = new Date();
+  const day = now.getDay();
+  const dayData = VEDIC_DATA[day];
+  
+  if (!dayData) return;
+
+  rahuKalamVal.textContent = dayData.rahu.text;
+  yamagandamVal.textContent = dayData.yama.text;
+
+  const rahuItem = document.getElementById('rahu-kalam-item');
+  const yamaItem = document.getElementById('yamagandam-item');
+
+  const isRahuActive = checkTimeInRange(dayData.rahu);
+  const isYamaActive = checkTimeInRange(dayData.yama);
+
+  const clearActiveHeader = (item) => {
+    const header = item.querySelector('.vedic-time-header');
+    const badge = header.querySelector('.active-muhurtha-badge, .active-muhurtha-badge-yama');
+    if (badge) badge.remove();
+  };
+
+  if (isRahuActive) {
+    rahuItem.classList.add('active');
+    const header = rahuItem.querySelector('.vedic-time-header');
+    if (!header.querySelector('.active-muhurtha-badge')) {
+      clearActiveHeader(rahuItem);
+      const badge = document.createElement('span');
+      badge.className = 'active-muhurtha-badge';
+      const t = UI_TRANSLATIONS[state.language] || UI_TRANSLATIONS['en'];
+      badge.title = t.activeNow;
+      header.appendChild(badge);
+    }
+  } else {
+    rahuItem.classList.remove('active');
+    clearActiveHeader(rahuItem);
+  }
+
+  if (isYamaActive) {
+    yamaItem.classList.add('active-yamagandam');
+    const header = yamaItem.querySelector('.vedic-time-header');
+    if (!header.querySelector('.active-muhurtha-badge-yama')) {
+      clearActiveHeader(yamaItem);
+      const badge = document.createElement('span');
+      badge.className = 'active-muhurtha-badge-yama';
+      const t = UI_TRANSLATIONS[state.language] || UI_TRANSLATIONS['en'];
+      badge.title = t.activeNow;
+      header.appendChild(badge);
+    }
+  } else {
+    yamaItem.classList.remove('active-yamagandam');
+    clearActiveHeader(yamaItem);
+  }
+}
 
 // Initialize Extension
 async function init() {
   try {
     // 1. Fetch user data from local storage
-    const data = await storage.get(['userName', 'zodiacSign', 'theme', 'searchEngine']);
+    const data = await storage.get(['userName', 'zodiacSign', 'theme', 'searchEngine', 'language', 'showVedic']);
     
     state.userName = data.userName || '';
     state.zodiacSign = data.zodiacSign || '';
     state.theme = data.theme || 'nebula';
     state.searchEngine = data.searchEngine || 'google';
+    state.language = data.language || 'en';
+    state.showVedic = data.showVedic !== undefined ? data.showVedic : true;
 
-    // 2. Apply theme
+    // 2. Apply theme & language
     applyTheme(state.theme);
+    applyLanguageUI(state.language);
+    toggleVedicCard(state.showVedic);
 
     // 3. Populate Zodiac Wheel SVG elements
     buildZodiacWheelSVG();
@@ -156,9 +624,8 @@ function startClock() {
     const now = new Date();
     clockEl.textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false });
     
-    // Formatting date
-    const options = { weekday: 'long', month: 'long', day: 'numeric' };
-    dateEl.textContent = now.toLocaleDateString([], options);
+    updateDateDisplay();
+    updateVedicTimes();
   };
   update();
   setInterval(update, 1000);
@@ -179,7 +646,9 @@ function showDashboard() {
   onboardingScreen.classList.add('hidden');
   dashboardScreen.classList.remove('hidden');
   
-  userDisplayName.textContent = state.userName || 'Stargazer';
+  updateGreeting();
+  updateDateDisplay();
+  updateVedicTimes();
 
   // Navigate wheel to user's saved sign
   const signIndex = SIGN_KEYS.indexOf(state.zodiacSign.toLowerCase());
@@ -242,7 +711,9 @@ function buildZodiacWheelSVG() {
     nameText.setAttribute('transform', `rotate(15, ${cx}, ${cy})`);
     nameText.setAttribute('class', 'wheel-name');
     nameText.setAttribute('data-index', index);
-    nameText.textContent = sign.name.toUpperCase();
+    const t = TRANSLATIONS[state.language] || TRANSLATIONS['en'];
+    const transSignName = t.signs[sign.name] || sign.name;
+    nameText.textContent = transSignName.toUpperCase();
     g.appendChild(nameText);
 
     // Invisible sector touch target
@@ -291,7 +762,7 @@ function navigate(updateDOM, direction) {
 function updateHoroscopeDisplay() {
   if (!state.zodiacSign) return;
   
-  const data = generateHoroscope(state.zodiacSign, state.activeTab);
+  const data = generateHoroscope(state.zodiacSign, state.activeTab, new Date(), state.language);
   if (!data) return;
   
   // Render readings
@@ -304,8 +775,12 @@ function updateHoroscopeDisplay() {
   // Header Details
   currentGlyph.textContent = data.glyph;
   currentSignName.textContent = data.sign;
-  currentElement.textContent = data.element;
-  currentPlanet.textContent = data.planet;
+  const t = UI_TRANSLATIONS[state.language] || UI_TRANSLATIONS['en'];
+  const metaText = t.elementLbl.replace('{val}', data.element).replace('{planet}', data.planet);
+  const metaEl = document.querySelector('.reading-sign-metadata');
+  if (metaEl) {
+    metaEl.innerHTML = metaText;
+  }
 
   // Animate Mood circular gauges
   updateMoodGauge(loveRing, loveValue, data.moods.love);
@@ -351,13 +826,12 @@ function rotateWheelToIndex(index, animate = true) {
   
   wheelSpinGroup.style.transform = `rotate(${state.currentRotation}deg)`;
   
-  // Update indicator text
-  const key = SIGN_KEYS[index];
-  const sign = ZODIAC_SIGNS[key];
+  const t = TRANSLATIONS[state.language] || TRANSLATIONS['en'];
+  const transSignName = t.signs[sign.name] || sign.name;
   
   indicatorGlyph.textContent = sign.glyph;
-  indicatorName.textContent = sign.name;
-  indicatorDates.textContent = `(${sign.start} - ${sign.end})`;
+  indicatorName.textContent = transSignName;
+  indicatorDates.textContent = getLocalizedDateRange(sign, state.language);
 
   // Add active classes to wheel text labels
   const glyphs = wheelSpinGroup.querySelectorAll('.wheel-glyph');
@@ -547,7 +1021,7 @@ function startConstellationGame() {
       // Check Win condition
       if (state.gameConnectedStars.length === mappedStars.length) {
         state.gameCompleted = true;
-        const currentData = generateHoroscope(state.zodiacSign, 'daily');
+        const currentData = generateHoroscope(state.zodiacSign, 'daily', new Date(), state.language);
         stellarQuoteEl.textContent = `"${currentData.quote}"`;
         gameSuccessMsg.classList.remove('hidden');
       }
@@ -585,18 +1059,22 @@ function setupEventListeners() {
   onboardingForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     if (!state.zodiacSign) {
-      alert('Please select your zodiac star sign.');
+      const t = UI_TRANSLATIONS[state.language] || UI_TRANSLATIONS['en'];
+      alert(t.alertSign);
       return;
     }
     
     state.userName = onboardingNameInput.value.trim();
+    state.language = onboardingLanguageSelect.value;
     
     // Save to storage
     await storage.set({
       userName: state.userName,
-      zodiacSign: state.zodiacSign
+      zodiacSign: state.zodiacSign,
+      language: state.language
     });
     
+    applyLanguageUI(state.language);
     showDashboard();
   });
 
@@ -606,6 +1084,8 @@ function setupEventListeners() {
     settingsZodiac.value = state.zodiacSign;
     settingsSearch.value = state.searchEngine;
     settingsTheme.value = state.theme;
+    settingsLanguage.value = state.language;
+    settingsShowVedic.checked = state.showVedic;
     settingsModal.showModal();
   });
 
@@ -622,16 +1102,21 @@ function setupEventListeners() {
     state.zodiacSign = settingsZodiac.value;
     state.searchEngine = settingsSearch.value;
     state.theme = settingsTheme.value;
+    state.language = settingsLanguage.value;
+    state.showVedic = settingsShowVedic.checked;
 
     await storage.set({
       userName: state.userName,
       zodiacSign: state.zodiacSign,
       searchEngine: state.searchEngine,
-      theme: state.theme
+      theme: state.theme,
+      language: state.language,
+      showVedic: state.showVedic
     });
 
     applyTheme(state.theme);
-    userDisplayName.textContent = state.userName;
+    applyLanguageUI(state.language);
+    toggleVedicCard(state.showVedic);
     
     // If sign changed, spin the wheel to correct snap position
     if (oldSign !== state.zodiacSign) {
@@ -644,7 +1129,8 @@ function setupEventListeners() {
   });
 
   resetAppBtn.addEventListener('click', async () => {
-    const confirmReset = confirm('Are you sure you want to reset your cosmic profile?');
+    const t = UI_TRANSLATIONS[state.language] || UI_TRANSLATIONS['en'];
+    const confirmReset = confirm(t.resetConfirm);
     if (!confirmReset) return;
     
     await storage.clear();
@@ -652,8 +1138,12 @@ function setupEventListeners() {
     state.zodiacSign = '';
     state.theme = 'nebula';
     state.searchEngine = 'google';
+    state.language = 'en';
+    state.showVedic = true;
     
     applyTheme(state.theme);
+    applyLanguageUI(state.language);
+    toggleVedicCard(state.showVedic);
     settingsModal.close();
     showOnboarding();
   });
@@ -752,9 +1242,11 @@ function setupEventListeners() {
     const hoverIdx = getIndexFromRotation(state.currentRotation);
     const key = SIGN_KEYS[hoverIdx];
     const sign = ZODIAC_SIGNS[key];
+    const t = TRANSLATIONS[state.language] || TRANSLATIONS['en'];
+    const transSignName = t.signs[sign.name] || sign.name;
     indicatorGlyph.textContent = sign.glyph;
-    indicatorName.textContent = sign.name;
-    indicatorDates.textContent = `(${sign.start} - ${sign.end})`;
+    indicatorName.textContent = transSignName;
+    indicatorDates.textContent = getLocalizedDateRange(sign, state.language);
   });
 
   zodiacSvgWheel.addEventListener('pointerup', (e) => {

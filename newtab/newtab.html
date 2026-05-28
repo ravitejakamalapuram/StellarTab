@@ -25,16 +25,26 @@
     <section id="onboarding-screen" class="onboarding-container glass-panel hidden">
       <div class="onboarding-header">
         <h1 class="stellar-title">StellarTab</h1>
-        <p class="stellar-subtitle">Connect with the cosmic rhythms of your life</p>
+        <p class="stellar-subtitle" id="onboarding-subtitle">Connect with the cosmic rhythms of your life</p>
       </div>
 
       <form id="onboarding-form" class="onboarding-form">
         <div class="input-group">
-          <label for="user-name-input">What shall the cosmos call you?</label>
+          <label for="user-name-input" id="onboarding-name-lbl">What shall the cosmos call you?</label>
           <input type="text" id="user-name-input" placeholder="Enter your name..." required maxlength="20">
         </div>
 
-        <div class="sign-selection-title">Select your celestial birth sign</div>
+        <div class="input-group">
+          <label for="onboarding-language-select" id="onboarding-lang-lbl">Preferred Language</label>
+          <select id="onboarding-language-select">
+            <option value="en">English</option>
+            <option value="te">తెలుగు (Telugu)</option>
+            <option value="hi">हिन्दी (Hindi)</option>
+            <option value="es">Español (Spanish)</option>
+          </select>
+        </div>
+
+        <div class="sign-selection-title" id="onboarding-sign-lbl">Select your celestial birth sign</div>
         <div class="zodiac-grid">
           <!-- Dynamically populated or static list of 12 signs -->
           <button type="button" class="sign-btn" data-sign="aries"><span class="glyph">♈</span><span class="name">Aries</span></button>
@@ -51,7 +61,7 @@
           <button type="button" class="sign-btn" data-sign="pisces"><span class="glyph">♓</span><span class="name">Pisces</span></button>
         </div>
 
-        <button type="submit" class="submit-btn glowing-button">Step into the Cosmos</button>
+        <button type="submit" class="submit-btn glowing-button" id="onboarding-submit-btn">Step into the Cosmos</button>
       </form>
     </section>
 
@@ -100,6 +110,25 @@
                 </svg>
               </button>
             </form>
+          </div>
+
+          <!-- Vedic Muhurthas Card -->
+          <div class="vedic-times-card glass-panel" id="vedic-times-card">
+            <h3 class="vedic-title" id="vedic-title">Vedic Muhurthas</h3>
+            <div class="vedic-time-grid">
+              <div class="vedic-time-item" id="rahu-kalam-item">
+                <div class="vedic-time-header">
+                  <span class="vedic-label" id="rahu-kalam-lbl">Rahu Kalam</span>
+                </div>
+                <span class="vedic-value" id="rahu-kalam-val">--:--</span>
+              </div>
+              <div class="vedic-time-item" id="yamagandam-item">
+                <div class="vedic-time-header">
+                  <span class="vedic-label" id="yamagandam-lbl">Yamagandam</span>
+                </div>
+                <span class="vedic-value" id="yamagandam-val">--:--</span>
+              </div>
+            </div>
           </div>
 
           <!-- Interactive Zodiac Wheel -->
@@ -312,12 +341,12 @@
     <div class="dialog-body">
       <form id="settings-form" class="settings-form">
         <div class="settings-group">
-          <label for="settings-username">Stargazer Name</label>
+          <label for="settings-username" id="settings-name-lbl">Stargazer Name</label>
           <input type="text" id="settings-username" required>
         </div>
 
         <div class="settings-group">
-          <label for="settings-zodiac">Zodiac Sign</label>
+          <label for="settings-zodiac" id="settings-zodiac-lbl">Zodiac Sign</label>
           <select id="settings-zodiac">
             <option value="aries">Aries (Mar 21 - Apr 19)</option>
             <option value="taurus">Taurus (Apr 20 - May 20)</option>
@@ -335,7 +364,7 @@
         </div>
 
         <div class="settings-group">
-          <label for="settings-search">Search Engine</label>
+          <label for="settings-search" id="settings-search-lbl">Search Engine</label>
           <select id="settings-search">
             <option value="google">Google</option>
             <option value="bing">Bing</option>
@@ -344,7 +373,7 @@
         </div>
 
         <div class="settings-group">
-          <label for="settings-theme">Dashboard Theme</label>
+          <label for="settings-theme" id="settings-theme-lbl">Dashboard Theme</label>
           <select id="settings-theme">
             <option value="nebula">Nebula Purple</option>
             <option value="aurora">Aurora Teal</option>
@@ -353,8 +382,26 @@
           </select>
         </div>
 
+        <div class="settings-group">
+          <label for="settings-language" id="settings-lang-lbl">Language</label>
+          <select id="settings-language">
+            <option value="en">English</option>
+            <option value="te">తెలుగు (Telugu)</option>
+            <option value="hi">हिन्दी (Hindi)</option>
+            <option value="es">Español (Spanish)</option>
+          </select>
+        </div>
+
+        <div class="settings-group settings-checkbox-group">
+          <label class="checkbox-container">
+            <input type="checkbox" id="settings-show-vedic" checked>
+            <span class="checkbox-custom"></span>
+            <span class="checkbox-text" id="settings-show-vedic-lbl">Enable Vedic Muhurthas (Admin)</span>
+          </label>
+        </div>
+
         <div class="settings-buttons">
-          <button type="submit" class="save-settings-btn glowing-button">Save Changes</button>
+          <button type="submit" class="save-settings-btn glowing-button" id="settings-save-btn">Save Changes</button>
           <button type="button" id="reset-app-btn" class="reset-btn">Reset Profile</button>
         </div>
       </form>
