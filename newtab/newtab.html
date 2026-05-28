@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StellarTab - Cosmic Daily Horoscope</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="newtab.css">
+</head>
+<body class="theme-nebula">
+
+  <!-- Parallax Cosmic Background Layers -->
+  <div class="space-background">
+    <div class="stars-layer"></div>
+    <div class="nebula-layer"></div>
+    <div class="glimmer-layer"></div>
+  </div>
+
+  <!-- Main Container -->
+  <main class="app-container">
+
+    <!-- ONBOARDING PANEL (Displayed if no sign saved) -->
+    <section id="onboarding-screen" class="onboarding-container glass-panel hidden">
+      <div class="onboarding-header">
+        <h1 class="stellar-title">StellarTab</h1>
+        <p class="stellar-subtitle">Connect with the cosmic rhythms of your life</p>
+      </div>
+
+      <form id="onboarding-form" class="onboarding-form">
+        <div class="input-group">
+          <label for="user-name-input">What shall the cosmos call you?</label>
+          <input type="text" id="user-name-input" placeholder="Enter your name..." required maxlength="20">
+        </div>
+
+        <div class="sign-selection-title">Select your celestial birth sign</div>
+        <div class="zodiac-grid">
+          <!-- Dynamically populated or static list of 12 signs -->
+          <button type="button" class="sign-btn" data-sign="aries"><span class="glyph">♈</span><span class="name">Aries</span></button>
+          <button type="button" class="sign-btn" data-sign="taurus"><span class="glyph">♉</span><span class="name">Taurus</span></button>
+          <button type="button" class="sign-btn" data-sign="gemini"><span class="glyph">♊</span><span class="name">Gemini</span></button>
+          <button type="button" class="sign-btn" data-sign="cancer"><span class="glyph">♋</span><span class="name">Cancer</span></button>
+          <button type="button" class="sign-btn" data-sign="leo"><span class="glyph">♌</span><span class="name">Leo</span></button>
+          <button type="button" class="sign-btn" data-sign="virgo"><span class="glyph">♍</span><span class="name">Virgo</span></button>
+          <button type="button" class="sign-btn" data-sign="libra"><span class="glyph">♎</span><span class="name">Libra</span></button>
+          <button type="button" class="sign-btn" data-sign="scorpio"><span class="glyph">♏</span><span class="name">Scorpio</span></button>
+          <button type="button" class="sign-btn" data-sign="sagittarius"><span class="glyph">♐</span><span class="name">Sagittarius</span></button>
+          <button type="button" class="sign-btn" data-sign="capricorn"><span class="glyph">♑</span><span class="name">Capricorn</span></button>
+          <button type="button" class="sign-btn" data-sign="aquarius"><span class="glyph">♒</span><span class="name">Aquarius</span></button>
+          <button type="button" class="sign-btn" data-sign="pisces"><span class="glyph">♓</span><span class="name">Pisces</span></button>
+        </div>
+
+        <button type="submit" class="submit-btn glowing-button">Step into the Cosmos</button>
+      </form>
+    </section>
+
+    <!-- COSMIC DASHBOARD (Main Screen) -->
+    <section id="dashboard-screen" class="dashboard-container">
+      
+      <!-- Top Navigation & Info Bar -->
+      <header class="dashboard-header glass-panel">
+        <div class="header-left">
+          <div id="astral-clock" class="astral-clock">00:00:00</div>
+          <div id="astral-date" class="astral-date">Loading date...</div>
+        </div>
+        
+        <div class="header-center">
+          <h1 class="greeting-text">Welcome back, <span id="user-display-name">Stargazer</span></h1>
+        </div>
+
+        <div class="header-right">
+          <button id="trigger-game-btn" class="header-action-btn" title="Daily Constellation Game">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+              <path d="M12 2L14.85 8.15L21.6 9.24L16.8 14.11L18.18 20.8L12 17.5L5.82 20.8L7.2 14.11L2.4 9.24L9.15 8.15L12 2Z" />
+            </svg>
+            <span>Constellation</span>
+          </button>
+          <button id="trigger-settings-btn" class="header-action-btn" title="Settings">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+              <path d="M19.14 12.94C19.18 12.63 19.2 12.32 19.2 12C19.2 11.68 19.18 11.37 19.14 11.06L21.2 9.47C21.39 9.32 21.44 9.06 21.32 8.85L19.38 5.48C19.26 5.27 19 5.18 18.78 5.27L16.36 6.25C15.86 5.86 15.3 5.54 14.69 5.29L14.33 2.71C14.3 2.48 14.1 2.3 13.86 2.3H9.95C9.71 2.3 9.51 2.48 9.48 2.71L9.12 5.29C8.51 5.54 7.95 5.86 7.45 6.25L5.03 5.27C4.81 5.18 4.55 5.27 4.43 5.48L2.49 8.85C2.37 9.06 2.42 9.32 2.61 9.47L4.67 11.06C4.63 11.37 4.61 11.68 4.61 12C4.61 12.32 4.63 12.63 4.67 12.94L2.61 14.53C2.42 14.68 2.37 14.94 2.49 15.15L4.43 18.52C4.55 18.73 4.81 18.82 5.03 18.73L7.45 17.75C7.95 18.14 8.51 18.46 9.12 18.71L9.48 21.29C9.51 21.52 9.71 21.7 9.95 21.7H13.86C14.1 21.7 14.3 21.52 14.33 21.29L14.69 18.71C15.3 18.46 15.86 18.14 16.36 17.75L18.78 18.73C19 18.82 19.26 18.73 19.38 18.52L21.32 15.15C21.44 14.94 21.39 14.68 21.2 14.53L19.14 12.94ZM12 15.6C10.01 15.6 8.4 13.99 8.4 12C8.4 10.01 10.01 8.4 12 8.4C13.99 8.4 15.6 10.01 15.6 12C15.6 13.99 13.99 15.6 12 15.6Z" />
+            </svg>
+          </button>
+        </div>
+      </header>
+
+      <!-- Main Dashboard Grid Layout -->
+      <div class="dashboard-grid">
+        
+        <!-- Left Side: Celestial Navigation & Search -->
+        <div class="grid-left">
+          
+          <!-- Search Bar Card -->
+          <div class="search-card glass-panel">
+            <form id="cosmic-search-form" class="cosmic-search-form">
+              <input type="text" id="search-input" placeholder="Search the stellar expanse..." autocomplete="off">
+              <button type="submit" class="search-submit" title="Search">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                  <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
+                </svg>
+              </button>
+            </form>
+          </div>
+
+          <!-- Interactive Zodiac Wheel -->
+          <div class="zodiac-wheel-card glass-panel">
+            <h2 class="wheel-title">Celestial Zodiac Wheel</h2>
+            <p class="wheel-instruction">Drag or click to spin & explore other signs</p>
+            
+            <div class="wheel-outer-container">
+              <!-- Wheel SVG -->
+              <svg id="zodiac-svg-wheel" viewBox="0 0 500 500" class="zodiac-svg-wheel">
+                <defs>
+                  <!-- Glowing filters and gradients -->
+                  <radialGradient id="wheel-glow" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" stop-color="rgba(100, 75, 230, 0.15)"/>
+                    <stop offset="80%" stop-color="rgba(20, 10, 50, 0)"/>
+                  </radialGradient>
+                  <filter id="glow-effect" x="-20%" y="-20%" width="140%" height="140%">
+                    <feGaussianBlur stdDeviation="6" result="blur" />
+                    <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                  </filter>
+                </defs>
+
+                <!-- Soft Glow Backdrop -->
+                <circle cx="250" cy="250" r="230" fill="url(#wheel-glow)" />
+
+                <!-- Outer Astrological Ring -->
+                <circle cx="250" cy="250" r="210" class="wheel-rim" />
+                <circle cx="250" cy="250" r="170" class="wheel-inner-rim" />
+
+                <!-- Group containing all segments. This is what rotates. -->
+                <g id="wheel-spin-group" class="wheel-spin-group">
+                  <!-- Segments and labels will be dynamically generated by JS for accuracy and precision -->
+                </g>
+
+                <!-- Center Golden Sun pointer (Stationary) -->
+                <g class="wheel-center-pointer" transform="translate(250, 250)">
+                  <circle cx="0" cy="0" r="32" class="center-disk" />
+                  <!-- Glowing center symbol -->
+                  <text x="0" y="8" class="center-glyph" text-anchor="middle" id="active-wheel-glyph">☀️</text>
+                  <!-- Pointer needle pointing UP -->
+                  <path d="M 0 -32 L -8 -45 L 8 -45 Z" class="pointer-needle" />
+                </g>
+              </svg>
+            </div>
+            
+            <!-- Quick View Selected Sign indicator -->
+            <div class="selected-sign-indicator">
+              <span id="indicator-glyph" class="indicator-glyph">♈</span>
+              <span id="indicator-name" class="indicator-name">Aries</span>
+              <span id="indicator-dates" class="indicator-dates">(Mar 21 - Apr 19)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Side: Horoscope Reading & Cosmic Parameters -->
+        <div class="grid-right">
+          
+          <!-- Horoscope Card -->
+          <div class="horoscope-card glass-panel" id="horoscope-detail-panel">
+            
+            <!-- Horoscope Card Header -->
+            <div class="horoscope-header">
+              <div class="header-sign-info">
+                <span class="reading-sign-glyph" id="current-glyph">♈</span>
+                <div>
+                  <h2 class="reading-sign-name" id="current-sign-name">Aries</h2>
+                  <p class="reading-sign-metadata">Element: <span id="current-element">Fire</span> | Ruling Planet: <span id="current-planet">Mars</span></p>
+                </div>
+              </div>
+              
+              <!-- Tab Navigation (Day, Week, Month) -->
+              <nav class="horoscope-tabs" role="tablist">
+                <div class="tab-slider-pill" id="tab-slider-pill"></div>
+                <button class="tab-btn active" data-tab="daily" role="tab" aria-selected="true" id="tab-daily">Today</button>
+                <button class="tab-btn" data-tab="weekly" role="tab" aria-selected="false" id="tab-weekly">This Week</button>
+                <button class="tab-btn" data-tab="monthly" role="tab" aria-selected="false" id="tab-monthly">This Month</button>
+              </nav>
+            </div>
+
+            <!-- Horoscope Reading Body -->
+            <div class="horoscope-body">
+              <div class="reading-section" id="reading-content-container">
+                <p class="reading-paragraph overview" id="horoscope-overview">Loading your stellar configuration...</p>
+                
+                <!-- Expanded Category Details -->
+                <div class="reading-categories">
+                  <div class="category-block">
+                    <h4>❤️ Love & Relationship</h4>
+                    <p id="horoscope-love">...</p>
+                  </div>
+                  <div class="category-block">
+                    <h4>💼 Career & Focus</h4>
+                    <p id="horoscope-career">...</p>
+                  </div>
+                  <div class="category-block">
+                    <h4>🌱 Wellness & Energy</h4>
+                    <p id="horoscope-wellness">...</p>
+                  </div>
+                  <div class="category-block">
+                    <h4>✨ Celestial Luck</h4>
+                    <p id="horoscope-luck">...</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Horoscope Parameters Footer -->
+            <div class="horoscope-footer">
+              <!-- Cosmic Mood meters -->
+              <div class="mood-meters-container">
+                <h3>Cosmic Alignment Indices</h3>
+                <div class="mood-grid">
+                  <div class="mood-item">
+                    <svg class="mood-ring" viewBox="0 0 36 36">
+                      <path class="ring-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                      <path class="ring-fg" id="love-ring" stroke-dasharray="0, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                    </svg>
+                    <div class="mood-info">
+                      <span class="mood-val" id="love-value">0%</span>
+                      <span class="mood-lbl">Love</span>
+                    </div>
+                  </div>
+                  <div class="mood-item">
+                    <svg class="mood-ring" viewBox="0 0 36 36">
+                      <path class="ring-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                      <path class="ring-fg" id="career-ring" stroke-dasharray="0, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                    </svg>
+                    <div class="mood-info">
+                      <span class="mood-val" id="career-value">0%</span>
+                      <span class="mood-lbl">Career</span>
+                    </div>
+                  </div>
+                  <div class="mood-item">
+                    <svg class="mood-ring" viewBox="0 0 36 36">
+                      <path class="ring-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                      <path class="ring-fg" id="wellness-ring" stroke-dasharray="0, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                    </svg>
+                    <div class="mood-info">
+                      <span class="mood-val" id="wellness-value">0%</span>
+                      <span class="mood-lbl">Wellness</span>
+                    </div>
+                  </div>
+                  <div class="mood-item">
+                    <svg class="mood-ring" viewBox="0 0 36 36">
+                      <path class="ring-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                      <path class="ring-fg" id="luck-ring" stroke-dasharray="0, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                    </svg>
+                    <div class="mood-info">
+                      <span class="mood-val" id="luck-value">0%</span>
+                      <span class="mood-lbl">Luck</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Lucky details -->
+              <div class="lucky-details">
+                <div class="lucky-detail-item">
+                  <span class="lucky-label">Lucky Number</span>
+                  <span class="lucky-val" id="lucky-number">-</span>
+                </div>
+                <div class="lucky-detail-item">
+                  <span class="lucky-label">Lucky Color</span>
+                  <span class="lucky-val" id="lucky-color">-</span>
+                </div>
+                <div class="lucky-detail-item">
+                  <span class="lucky-label">Power Hour</span>
+                  <span class="lucky-val" id="power-hour">-</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- DAILY CONSTELLATION GAME DIALOG -->
+  <dialog id="game-modal" class="glass-panel modal-dialog">
+    <div class="dialog-header">
+      <h2 class="modal-title">Star Alignment</h2>
+      <button class="close-dialog-btn" id="close-game-btn" aria-label="Close dialog">&times;</button>
+    </div>
+    <div class="dialog-body game-body">
+      <p class="game-instruction">Connect the glowing stars in sequence to reveal your deep daily insight.</p>
+      
+      <div class="constellation-canvas-container">
+        <!-- Canvas for interactive dots -->
+        <canvas id="constellation-canvas" width="400" height="300"></canvas>
+      </div>
+
+      <!-- Success Card (Hidden initially) -->
+      <div id="game-success-message" class="game-success-panel hidden">
+        <h3 class="success-title">✨ Constellation Connected ✨</h3>
+        <p class="success-quote" id="stellar-quote">"The universe is in you."</p>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- SETTINGS DIALOG -->
+  <dialog id="settings-modal" class="glass-panel modal-dialog">
+    <div class="dialog-header">
+      <h2 class="modal-title">Celestial Options</h2>
+      <button class="close-dialog-btn" id="close-settings-btn" aria-label="Close dialog">&times;</button>
+    </div>
+    <div class="dialog-body">
+      <form id="settings-form" class="settings-form">
+        <div class="settings-group">
+          <label for="settings-username">Stargazer Name</label>
+          <input type="text" id="settings-username" required>
+        </div>
+
+        <div class="settings-group">
+          <label for="settings-zodiac">Zodiac Sign</label>
+          <select id="settings-zodiac">
+            <option value="aries">Aries (Mar 21 - Apr 19)</option>
+            <option value="taurus">Taurus (Apr 20 - May 20)</option>
+            <option value="gemini">Gemini (May 21 - June 20)</option>
+            <option value="cancer">Cancer (June 21 - July 22)</option>
+            <option value="leo">Leo (July 23 - Aug 22)</option>
+            <option value="virgo">Virgo (Aug 23 - Sept 22)</option>
+            <option value="libra">Libra (Sept 23 - Oct 22)</option>
+            <option value="scorpio">Scorpio (Oct 23 - Nov 21)</option>
+            <option value="sagittarius">Sagittarius (Nov 22 - Dec 21)</option>
+            <option value="capricorn">Capricorn (Dec 22 - Jan 19)</option>
+            <option value="aquarius">Aquarius (Jan 20 - Feb 18)</option>
+            <option value="pisces">Pisces (Feb 19 - Mar 20)</option>
+          </select>
+        </div>
+
+        <div class="settings-group">
+          <label for="settings-search">Search Engine</label>
+          <select id="settings-search">
+            <option value="google">Google</option>
+            <option value="bing">Bing</option>
+            <option value="duckduckgo">DuckDuckGo</option>
+          </select>
+        </div>
+
+        <div class="settings-group">
+          <label for="settings-theme">Dashboard Theme</label>
+          <select id="settings-theme">
+            <option value="nebula">Nebula Purple</option>
+            <option value="aurora">Aurora Teal</option>
+            <option value="eclipse">Solar Eclipse</option>
+            <option value="stardust">Cosmic Blue</option>
+          </select>
+        </div>
+
+        <div class="settings-buttons">
+          <button type="submit" class="save-settings-btn glowing-button">Save Changes</button>
+          <button type="button" id="reset-app-btn" class="reset-btn">Reset Profile</button>
+        </div>
+      </form>
+    </div>
+  </dialog>
+
+  <script type="module" src="newtab.js"></script>
+</body>
+</html>
