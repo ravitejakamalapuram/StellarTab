@@ -16,7 +16,7 @@ permissions:
 
 jobs:
   build-and-deploy:
-    uses: ravitejakamalapuram/.github-workflows-shared/.github/workflows/chrome-extension-cd.yml@v1.1.4
+    uses: ravitejakamalapuram/.github-workflows-shared/.github/workflows/chrome-extension-cd.yml@v1.1.8
     with:
       extension-dir: '.'
     secrets:
