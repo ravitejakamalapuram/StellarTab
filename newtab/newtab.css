@@ -24,7 +24,7 @@
 
   --text-primary: hsl(0, 0%, 96%);
   --text-secondary: hsl(240, 10%, 75%);
-  --text-muted: hsl(240, 5%, 55%);
+  --text-muted: hsl(240, 8%, 70%);
   --glass-bg: rgba(255, 255, 255, 0.02);
   --glass-bg-hover: rgba(255, 255, 255, 0.05);
   
@@ -1361,5 +1361,24 @@ html:active-view-transition-type(backward)::view-transition-new(root) {
 .settings-group select option {
   background: #140f23;
   color: #fff;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
 }
 
