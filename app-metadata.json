@@ -19,7 +19,13 @@
         "detailedDescription": "Transform your New Tab page into a stunning glassmorphic Cosmic Dashboard. Get daily, weekly, and monthly horoscopes, track cosmic mood meters, and explore connections with an interactive constellation mini-game.",
         "category": "productivity",
         "singlePurpose": "Transform your New Tab page into a stunning glassmorphic Cosmic Dashbo",
-        "privacyPolicyUrl": "https://ravitejakamalapuram.github.io/StellarTab/privacy.html"
+        "privacyPolicyUrl": "https://ravitejakamalapuram.github.io/StellarTab/privacy.html",
+        "remoteCodeUsed": false,
+        "remoteCodeJustification": "The extension does not use remote code. All files, scripts, and libraries are packaged locally within the extension ZIP file.",
+        "dataUsageCertified": true,
+        "permissionJustifications": {
+          "storage": "The 'storage' permission is required to save the user's custom preferences, selected themes, and cached Bhagavad Gita verses locally on their device, ensuring settings persist across sessions and function offline."
+        }
       }
     }
   ]
