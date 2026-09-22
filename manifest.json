@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "StellarTab - Daily Astrology & Cosmic Horoscope",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Cosmic Dashboard for your New Tab. Get daily horoscopes, track cosmic mood meters, and play constellation mini-games.",
   "icons": {
     "16": "icons/icon-16.png",
@@ -12,7 +12,8 @@
     "newtab": "newtab/newtab.html"
   },
   "permissions": [
-    "storage"
+    "storage",
+    "search"
   ],
   "background": {
     "service_worker": "background.js"

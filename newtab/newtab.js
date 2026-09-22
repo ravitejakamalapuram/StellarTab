@@ -31,7 +31,6 @@ let state = {
   userName: '',
   zodiacSign: '',
   theme: 'nebula',
-  searchEngine: 'google',
   language: 'en',
   showVedic: true,
   activeTab: 'daily',
@@ -114,7 +113,6 @@ const closeSettingsBtn = document.getElementById('close-settings-btn');
 const settingsForm = document.getElementById('settings-form');
 const settingsUsername = document.getElementById('settings-username');
 const settingsZodiac = document.getElementById('settings-zodiac');
-const settingsSearch = document.getElementById('settings-search');
 const settingsTheme = document.getElementById('settings-theme');
 const resetAppBtn = document.getElementById('reset-app-btn');
 const onboardingLanguageSelect = document.getElementById('onboarding-language-select');
@@ -451,8 +449,6 @@ function applyLanguageUI(lang) {
   if (settingsNameLbl) settingsNameLbl.textContent = t.settingsNameLbl;
   const settingsZodiacLbl = document.getElementById('settings-zodiac-lbl');
   if (settingsZodiacLbl) settingsZodiacLbl.textContent = t.settingsZodiacLbl;
-  const settingsSearchLbl = document.getElementById('settings-search-lbl');
-  if (settingsSearchLbl) settingsSearchLbl.textContent = t.settingsSearchLbl;
   const settingsThemeLbl = document.getElementById('settings-theme-lbl');
   if (settingsThemeLbl) settingsThemeLbl.textContent = t.settingsThemeLbl;
   const settingsLangLbl = document.getElementById('settings-lang-lbl');
@@ -584,12 +580,11 @@ function updateVedicTimes() {
 async function init() {
   try {
     // 1. Fetch user data from local storage
-    const data = await storage.get(['userName', 'zodiacSign', 'theme', 'searchEngine', 'language', 'showVedic']);
+    const data = await storage.get(['userName', 'zodiacSign', 'theme', 'language', 'showVedic']);
     
     state.userName = data.userName || '';
     state.zodiacSign = data.zodiacSign || '';
     state.theme = data.theme || 'nebula';
-    state.searchEngine = data.searchEngine || 'google';
     state.language = data.language || 'en';
     state.showVedic = data.showVedic !== undefined ? data.showVedic : true;
 
@@ -1082,7 +1077,6 @@ function setupEventListeners() {
   triggerSettingsBtn.addEventListener('click', () => {
     settingsUsername.value = state.userName;
     settingsZodiac.value = state.zodiacSign;
-    settingsSearch.value = state.searchEngine;
     settingsTheme.value = state.theme;
     settingsLanguage.value = state.language;
     settingsShowVedic.checked = state.showVedic;
@@ -1100,7 +1094,6 @@ function setupEventListeners() {
     
     state.userName = settingsUsername.value.trim();
     state.zodiacSign = settingsZodiac.value;
-    state.searchEngine = settingsSearch.value;
     state.theme = settingsTheme.value;
     state.language = settingsLanguage.value;
     state.showVedic = settingsShowVedic.checked;
@@ -1108,7 +1101,6 @@ function setupEventListeners() {
     await storage.set({
       userName: state.userName,
       zodiacSign: state.zodiacSign,
-      searchEngine: state.searchEngine,
       theme: state.theme,
       language: state.language,
       showVedic: state.showVedic
@@ -1137,7 +1129,6 @@ function setupEventListeners() {
     state.userName = '';
     state.zodiacSign = '';
     state.theme = 'nebula';
-    state.searchEngine = 'google';
     state.language = 'en';
     state.showVedic = true;
     
@@ -1190,20 +1181,20 @@ function setupEventListeners() {
   // Resize listener to fix tab sliding pill offset
   window.addEventListener('resize', updateTabSliderPosition);
 
-  // Cosmic Search Submit redirection
+  // Cosmic Search Submit using Chrome Search API (respects user default search engine)
   searchForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    const query = encodeURIComponent(searchInput.value.trim());
+    const query = searchInput.value.trim();
     if (!query) return;
 
-    let url = `https://www.google.com/search?q=${query}`;
-    if (state.searchEngine === 'bing') {
-      url = `https://www.bing.com/search?q=${query}`;
-    } else if (state.searchEngine === 'duckduckgo') {
-      url = `https://duckduckgo.com/?q=${query}`;
+    if (typeof chrome !== 'undefined' && chrome.search && chrome.search.query) {
+      chrome.search.query({
+        text: query,
+        disposition: 'CURRENT_TAB'
+      });
+    } else {
+      window.location.href = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
     }
-    
-    window.location.href = url;
   });
 
   // Zodiac Wheel Pointer Drag and Rotate Actions

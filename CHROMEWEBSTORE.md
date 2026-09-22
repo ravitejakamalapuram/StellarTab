@@ -1,6 +1,6 @@
 # Chrome Web Store Listing & Publishing Record
 
-*Last Updated: 2026-09-21*
+*Last Updated: 2026-09-22*
 
 ---
 
@@ -8,7 +8,7 @@
 - **Name**: StellarTab - Daily Astrology & Cosmic Horoscope
 - **Extension ID**: `efpigokkcblmjdnameafogblekknbhdc`
 - **Publisher ID**: `9637cb78-fa33-49dd-a4cb-91066ff182e3`
-- **Version**: `1.0.1`
+- **Version**: `1.0.3`
 - **Manifest Version**: `MV3`
 - **Language**: `en`
 - **Category**: `Lifestyle`
@@ -47,6 +47,7 @@ Google review requires specific plain-English justification for each declared pe
 | Permission | Used in Code? | Sample Evidence | Required? | Risk | Plain-English Review Justification |
 | :--- | :---: | :--- | :---: | :---: | :--- |
 | `storage` | Yes | background.js:4 | Yes | LOW | Required to locally persist user zodiac sign selection, preferences, and horoscope viewing history directly on the device. |
+| `search` | Yes | newtab/newtab.js | Yes | LOW | Uses chrome.search.query to execute user-initiated searches through the user's default browser search engine from the new tab page, strictly complying with the Chrome Web Store Single Purpose policy (Red Argon). |
 
 ---
 
@@ -64,7 +65,7 @@ Google review requires specific plain-English justification for each declared pe
   - **Web Page Data & Content**: Collected: No | Stored: No | Purpose: N/A
   - **Analytics & Telemetry**: Collected: No | Stored: No | Purpose: No analytics or telemetry collected.
 
-- **Privacy Policy URL**: `https://session-bridge-4.preview.emergentagent.com/privacy`
+- **Privacy Policy URL**: `https://ravitejakamalapuram.github.io/stellartab.html`
 
 ---
 
@@ -85,6 +86,8 @@ Google review requires specific plain-English justification for each declared pe
 - [x] Distributable archive contains `manifest.json` at root
 - [x] Extension registered in Chrome Web Store Developer Dashboard
 - [x] Branding guidelines & safe zones verified
+- [x] Single purpose compliance (Red Argon resolved via chrome.search.query)
+- [x] Verified HTTPS Privacy Policy live on GitHub Pages
 
 ---
 
@@ -92,4 +95,5 @@ Google review requires specific plain-English justification for each declared pe
 
 | Version | Date | Status | Package ZIP | Notes |
 | :--- | :--- | :--- | :--- | :--- |
-| `1.0.1` | 2026-09-21 | Draft / Submitted | `chrome-store/builds/stellartab-v1.0.1.zip` | Updated category to Lifestyle, updated description, privacy disclosures, and bumped version to v1.0.1 |
+| `1.0.1` | 2026-09-22 | Rejected | `chrome-store/builds/stellartab-v1.0.1.zip` | Rejected under Red Argon (hardcoded search URLs instead of Chrome Search API) |
+| `1.0.3` | 2026-09-22 | Pending review | `chrome-store/builds/stellartab-v1.0.3.zip` | Added `search` permission, implemented `chrome.search.query` to respect default search engine, removed settings override, and updated GitHub Pages privacy URL |
