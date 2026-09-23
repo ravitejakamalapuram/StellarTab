@@ -8,8 +8,7 @@ chrome.runtime.onInstalled.addListener(async () => {
     await chrome.storage.local.set({
       userName: '',
       zodiacSign: '',
-      theme: 'nebula',
-      searchEngine: 'google'
+      theme: 'nebula'
     });
   }
   

@@ -1,0 +1,22 @@
+{
+  "name": "StellarTab - Daily Astrology & Cosmic Horoscope",
+  "shortDescription": "Cosmic Dashboard for your New Tab. Get daily horoscopes, track cosmic mood meters, and play constellation mini-games.",
+  "description": "StellarTab - Daily Astrology & Cosmic Horoscope\n\nStellarTab transforms your browser's new tab page into a tranquil, cosmic sanctuary. Stay connected with celestial cycles, daily astrological insights, and mindful interactive mini-games right from your Chrome toolbar and new tab.\n\nKEY FEATURES\n• Daily Horoscopes: Personalized astrological forecasts for all 12 zodiac signs, updated daily.\n• Real-Time Moon Phases: Accurate visualization of current lunar phases, illumination percentages, and astronomical events.\n• Cosmic Mood Meter: Track your celestial biorhythms and energy levels throughout the day.\n• Constellation Mini-Games: Relax with interactive star-connecting and constellation puzzles.\n• Ambient Visuals: Beautiful high-resolution space backgrounds with glassmorphic aesthetics.\n• Private & Local-First: Horoscope calculations, preferences, and game states run in your browser. No accounts, tracking, or analytics (web fonts are loaded from Google Fonts).\n\nHOW TO USE\n1. Install StellarTab and open a new tab in Chrome.\n2. Select your zodiac sun sign or customize your birth chart preferences.\n3. Enjoy daily astrological readings, live lunar cycles, and interactive star maps every time you open a tab.\n",
+  "category": "Lifestyle",
+  "language": "en",
+  "supportUrl": "https://github.com/ravitejakamalapuram/StellarTab/issues",
+  "websiteUrl": "https://github.com/ravitejakamalapuram/StellarTab",
+  "privacyPolicyUrl": "https://ravitejakamalapuram.github.io/stellartab.html",
+  "publisherId": "9637cb78-fa33-49dd-a4cb-91066ff182e3",
+  "extensionId": "efpigokkcblmjdnameafogblekknbhdc",
+  "visibility": "PUBLIC",
+  "distribution": "",
+  "screenshots": [
+    "assets/screenshots/01-main-screen.png"
+  ],
+  "promotionalImages": {
+    "smallTile": "assets/promo/small-tile.png",
+    "largeTile": "assets/promo/large-tile.png",
+    "marquee": "assets/promo/marquee.png"
+  }
+}

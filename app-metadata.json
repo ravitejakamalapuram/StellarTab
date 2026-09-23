@@ -2,29 +2,30 @@
   "appName": "StellarTab - Daily Astrology & Cosmic Horoscope",
   "appType": "chrome-extension",
   "repoName": "StellarTab",
-  "description": "Transform your New Tab page into a stunning glassmorphic Cosmic Dashboard. Get daily, weekly, and monthly horoscopes, track cosmic mood meters, and explore connections with an interactive constellation mini-game.",
+  "description": "Cosmic Dashboard for your New Tab. Get daily horoscopes, track cosmic mood meters, and play constellation mini-games.",
   "modules": [
     {
       "name": "Chrome Extension",
       "type": "chrome-extension",
       "path": ".",
       "status": "draft",
-      "storeId": "",
-      "storeUrl": "",
-      "developerConsoleUrl": "https://chrome.google.com/webstore/devconsole",
+      "storeId": "efpigokkcblmjdnameafogblekknbhdc",
+      "storeUrl": "https://chromewebstore.google.com/detail/efpigokkcblmjdnameafogblekknbhdc",
+      "developerConsoleUrl": "https://chrome.google.com/webstore/devconsole/9637cb78-fa33-49dd-a4cb-91066ff182e3/efpigokkcblmjdnameafogblekknbhdc",
       "buildScript": "zip -r initial-package.zip .",
       "artifactPath": "initial-package.zip",
       "cwsListing": {
-        "shortDescription": "Transform your New Tab page into a stunning glassmorphic Cosmic Dashboard. Get daily, weekly, and monthly horoscopes, track cosmic",
-        "detailedDescription": "Transform your New Tab page into a stunning glassmorphic Cosmic Dashboard. Get daily, weekly, and monthly horoscopes, track cosmic mood meters, and explore connections with an interactive constellation mini-game.",
-        "category": "productivity",
-        "singlePurpose": "Transform your New Tab page into a stunning glassmorphic Cosmic Dashbo",
-        "privacyPolicyUrl": "https://ravitejakamalapuram.github.io/StellarTab/privacy.html",
+        "shortDescription": "Cosmic Dashboard for your New Tab. Get daily horoscopes, track cosmic mood meters, and play constellation mini-games.",
+        "detailedDescription": "StellarTab transforms your browser's new tab page into a tranquil, cosmic sanctuary. Stay connected with celestial cycles, daily astrological insights, and mindful interactive mini-games right from your Chrome toolbar and new tab.\n\nKEY FEATURES\n• Daily Horoscopes: Personalized astrological forecasts for all 12 zodiac signs, updated daily.\n• Real-Time Moon Phases: Accurate visualization of current lunar phases, illumination percentages, and astronomical events.\n• Cosmic Mood Meter: Track your celestial biorhythms and energy levels throughout the day.\n• Constellation Mini-Games: Relax with interactive star-connecting and constellation puzzles.\n• Ambient Visuals: Beautiful high-resolution space backgrounds with glassmorphic aesthetics.\n• 100% Private & Local-First: All horoscope calculations, preferences, and game states run entirely in your browser without external servers, tracking, or analytics.\n\nHOW TO USE\n1. Install StellarTab and open a new tab in Chrome.\n2. Select your zodiac sun sign or customize your birth chart preferences.\n3. Enjoy daily astrological readings, live lunar cycles, and interactive star maps every time you open a tab.",
+        "category": "lifestyle",
+        "singlePurpose": "StellarTab replaces the default Chrome new tab page with an interactive astrology dashboard featuring daily horoscopes, lunar phase tracking, and celestial mini-games entirely processed locally.",
+        "privacyPolicyUrl": "https://ravitejakamalapuram.github.io/stellartab.html",
         "remoteCodeUsed": false,
         "remoteCodeJustification": "The extension does not use remote code. All files, scripts, and libraries are packaged locally within the extension ZIP file.",
         "dataUsageCertified": true,
         "permissionJustifications": {
-          "storage": "The 'storage' permission is required to save the user's custom preferences, selected themes, and cached Bhagavad Gita verses locally on their device, ensuring settings persist across sessions and function offline."
+          "storage": "Required to locally persist user zodiac sign selection, preferences, and horoscope viewing history directly on the device.",
+          "search": "Uses chrome.search.query to run searches the user types into the new tab search box through the user's default search engine, instead of a hardcoded search provider."
         }
       }
     }

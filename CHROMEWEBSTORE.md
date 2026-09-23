@@ -1,111 +1,99 @@
-# Chrome Web Store Listing — StellarTab
+# Chrome Web Store Listing & Publishing Record
 
-> Last Updated: 2026-05-28
+*Last Updated: 2026-09-22*
 
-## Store Listing
+---
 
-**Extension Name**
-StellarTab - Daily Astrology & Cosmic Horoscope
+## 1. Extension Information
+- **Name**: StellarTab - Daily Astrology & Cosmic Horoscope
+- **Extension ID**: `efpigokkcblmjdnameafogblekknbhdc`
+- **Publisher ID**: `9637cb78-fa33-49dd-a4cb-91066ff182e3`
+- **Version**: `1.0.3`
+- **Manifest Version**: `MV3`
+- **Language**: `en`
+- **Category**: `Lifestyle`
 
-**Short Description**
-Transform your New Tab page into a stunning glassmorphic Cosmic Dashboard with daily, weekly, and monthly horoscopes.
+---
 
-**Detailed Description**
-Transform your default browser New Tab page into an immersive, glassmorphic Cosmic Dashboard. Align yourself with the stars every single day with StellarTab.
+## 2. Store Listing Copy
 
-Key Features:
-- Daily, Weekly, and Monthly Horoscopes: Poetic, authentic, and deep astrological readings tailored to your sign.
-- Cosmic Mood Indices: Track daily alignment percentages for Love, Career, Wellness, and Luck.
-- Interactive Zodiac Wheel: Rotate the celestial ring using smooth, tactile drag controls to explore readings for other signs.
-- Celestial Astral Clock: View time and date against a beautiful, dynamic starry sky backdrop.
-- Minimalist Search Utility: Query the web via Google, Bing, or DuckDuckGo directly from your dashboard.
-- Constellation Mini-game: Connect the glowing stars of your sign to reveal inspiring daily cosmic quotes.
-- Completely Private & Offline: Our deterministic engine calculates your readings locally—your data never leaves your device.
+### Short Description (max 132 characters)
+> Cosmic Dashboard for your New Tab. Get daily horoscopes, track cosmic mood meters, and play constellation mini-games.
 
-How to Use:
-1. Install StellarTab.
-2. Open a new tab to step into the cosmic dashboard.
-3. Enter your name and select your zodiac sign.
-4. Drag or spin the Zodiac Wheel to check other signs, and switch tabs to read daily, weekly, or monthly forecasts.
-5. Click the "Constellation" button in the header to play the daily connection game.
+### Detailed Description
+```markdown
+StellarTab transforms your browser's new tab page into a tranquil, cosmic sanctuary. Stay connected with celestial cycles, daily astrological insights, and mindful interactive mini-games right from your Chrome toolbar and new tab.
 
-Privacy & Permissions:
-StellarTab values your privacy. We store your preferences locally on your browser using secure extension storage. No trackers, no cookies, and no data transmissions are made to third-party servers.
+KEY FEATURES
+• Daily Horoscopes: Personalized astrological forecasts for all 12 zodiac signs, updated daily.
+• Real-Time Moon Phases: Accurate visualization of current lunar phases, illumination percentages, and astronomical events.
+• Cosmic Mood Meter: Track your celestial biorhythms and energy levels throughout the day.
+• Constellation Mini-Games: Relax with interactive star-connecting and constellation puzzles.
+• Ambient Visuals: Beautiful high-resolution space backgrounds with glassmorphic aesthetics.
+• 100% Private & Local-First: All horoscope calculations, preferences, and game states run entirely in your browser without external servers, tracking, or analytics.
 
-**Category**
-Fun
+HOW TO USE
+1. Install StellarTab and open a new tab in Chrome.
+2. Select your zodiac sun sign or customize your birth chart preferences.
+3. Enjoy daily astrological readings, live lunar cycles, and interactive star maps every time you open a tab.
+```
 
-**Single Purpose**
-Displays daily, weekly, and monthly horoscopes and astrological insights on the browser New Tab page.
+---
 
-**Primary Language**
-English
+## 3. Permissions Justifications (Required for Review)
 
-## Graphics & Assets
+Google review requires specific plain-English justification for each declared permission:
 
-| Asset | Dimensions | Status | Filename |
-|-------|-----------|--------|----------|
-| Store Icon | 128×128 PNG | ✅ Ready | `icons/icon-128.png` |
-| Screenshot 1 | 1280×800 | ✅ Ready (Generated) | `newtab_onboarding_preview.png` |
-| Screenshot 2 | 1280×800 | ✅ Ready (Generated) | `newtab_dashboard_preview.png` |
-| Small Promo Tile | 440×280 | ✅ Ready (Generated) | `newtab_promo_tile.png` |
+| Permission | Used in Code? | Sample Evidence | Required? | Risk | Plain-English Review Justification |
+| :--- | :---: | :--- | :---: | :---: | :--- |
+| `storage` | Yes | background.js:4 | Yes | LOW | Required to locally persist user zodiac sign selection, preferences, and horoscope viewing history directly on the device. |
+| `search` | Yes | newtab/newtab.js | Yes | LOW | Uses chrome.search.query to execute user-initiated searches through the user's default browser search engine from the new tab page, strictly complying with the Chrome Web Store Single Purpose policy (Red Argon). |
 
-### Screenshot Notes
-- Screenshot 1: Shows the clean and minimal glassmorphic onboarding screen asking for the user's name and zodiac sign.
-- Screenshot 2: Shows the active Cosmic Dashboard containing the astrological clock, greeting, interactive SVG Zodiac Wheel, category readings, and circular mood meters.
+---
 
-## Permissions Justification
+## 4. Privacy & Data Use Disclosure
 
-| Permission | Type | Justification |
-|------------|------|---------------|
-| `storage` | permissions | Required to save the user's name, selected zodiac sign, search engine preferences, and custom dashboard themes locally on the browser. |
+- **Data Flow**:
+  User Interaction
+  ⬇
+  Extension Frontend (New Tab Page)
+  ⬇
+  Local Browser Storage (`chrome.storage.local`)
 
-## Privacy & Data Use
+- **Data Handling Summary**:
+  - **User Preference & Session State**: Collected: Yes | Stored: Local | Purpose: Store zodiac preferences and visual theme selection locally.
+  - **Web Page Data & Content**: Collected: No | Stored: No | Purpose: N/A
+  - **Analytics & Telemetry**: Collected: No | Stored: No | Purpose: No analytics or telemetry collected.
 
-### Data Collection
+- **Privacy Policy URL**: `https://ravitejakamalapuram.github.io/stellartab.html`
 
-**Does the extension collect user data?** No
+---
 
-StellarTab computes all readings locally using a seed-based deterministic astrological engine. No data is collected, stored, or transmitted off-device.
+## 5. Store Assets Checklist
 
-### Data Use Certification
-- [x] Data is NOT sold to third parties
-- [x] Data is NOT used for purposes unrelated to the extension's core functionality
-- [x] Data is NOT used for creditworthiness or lending purposes
+- [x] Extension Icon (128×128 PNG): `icons/icon-128.png`
+- [x] Primary Screenshot (1280×800 PNG): `store-assets/01-main.png`
+- [x] Promotional Tile (440×280 PNG): `store-assets/tile-small.png`
+- [x] Marquee Promo (1400×560 PNG): `store-assets/tile-marquee.png`
 
-## Distribution
+---
 
-**Visibility**: Public
-**Regions**: All regions
-**Pricing**: Free
+## 6. Pre-Publish Checklist
 
-## Developer Info
+- [x] Manifest V3 compliance verified
+- [x] No `eval()` or remotely hosted code
+- [x] No secrets, private keys, or API tokens in package
+- [x] Distributable archive contains `manifest.json` at root
+- [x] Extension registered in Chrome Web Store Developer Dashboard
+- [x] Branding guidelines & safe zones verified
+- [x] Single purpose compliance (Red Argon resolved via chrome.search.query)
+- [x] Verified HTTPS Privacy Policy live on GitHub Pages
 
-**Publisher Name**
-Stargazing Labs
+---
 
-**Contact Email**
-stargazer@stargazinglabs.io
+## 7. Release History
 
-**Homepage URL**
-https://github.com/ravitejakamalapuram/StellarTab
-
-## Version History
-
-| Version | Date | Changes | Status |
-|---------|------|---------|--------|
-| 1.0.0 | 2026-05-28 | Initial release featuring full-screen override dashboard, interactive zodiac wheel, and constellation game. | Draft |
-
-## CI/CD Automation
-
-We automate the zipping and publishing of the extension to the Chrome Web Store using GitHub Actions.
-
-### Deployment Secrets Setup
-To enable automation, you must configure the following Secrets in your GitHub repository (`Settings -> Secrets and variables -> Actions`):
-
-1. `CLIENT_ID`: Google API OAuth Client ID (obtained from Google Cloud Console).
-2. `CLIENT_SECRET`: Google API OAuth Client Secret (obtained from Google Cloud Console).
-3. `REFRESH_TOKEN`: OAuth Refresh Token allowing upload scopes to Chrome Web Store API.
-4. `APP_ID`: The Chrome Web Store Item ID assigned when you first create the draft item.
-
-Once these secrets are configured, pushes to the `main` branch that modify the manifest version will automatically trigger a release build, package the extension zip (excluding dev files), and upload it to the Chrome Web Store.
+| Version | Date | Status | Package ZIP | Notes |
+| :--- | :--- | :--- | :--- | :--- |
+| `1.0.1` | 2026-09-22 | Rejected | `chrome-store/builds/stellartab-v1.0.1.zip` | Rejected under Red Argon (hardcoded search URLs instead of Chrome Search API) |
+| `1.0.3` | 2026-09-22 | Pending review | `chrome-store/builds/stellartab-v1.0.3.zip` | Added `search` permission, implemented `chrome.search.query` to respect default search engine, removed settings override, and updated GitHub Pages privacy URL |
