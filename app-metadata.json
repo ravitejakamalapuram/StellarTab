@@ -19,12 +19,13 @@
         "detailedDescription": "StellarTab transforms your browser's new tab page into a tranquil, cosmic sanctuary. Stay connected with celestial cycles, daily astrological insights, and mindful interactive mini-games right from your Chrome toolbar and new tab.\n\nKEY FEATURES\n• Daily Horoscopes: Personalized astrological forecasts for all 12 zodiac signs, updated daily.\n• Real-Time Moon Phases: Accurate visualization of current lunar phases, illumination percentages, and astronomical events.\n• Cosmic Mood Meter: Track your celestial biorhythms and energy levels throughout the day.\n• Constellation Mini-Games: Relax with interactive star-connecting and constellation puzzles.\n• Ambient Visuals: Beautiful high-resolution space backgrounds with glassmorphic aesthetics.\n• 100% Private & Local-First: All horoscope calculations, preferences, and game states run entirely in your browser without external servers, tracking, or analytics.\n\nHOW TO USE\n1. Install StellarTab and open a new tab in Chrome.\n2. Select your zodiac sun sign or customize your birth chart preferences.\n3. Enjoy daily astrological readings, live lunar cycles, and interactive star maps every time you open a tab.",
         "category": "lifestyle",
         "singlePurpose": "StellarTab replaces the default Chrome new tab page with an interactive astrology dashboard featuring daily horoscopes, lunar phase tracking, and celestial mini-games entirely processed locally.",
-        "privacyPolicyUrl": "https://session-bridge-4.preview.emergentagent.com/privacy",
+        "privacyPolicyUrl": "https://ravitejakamalapuram.github.io/stellartab.html",
         "remoteCodeUsed": false,
         "remoteCodeJustification": "The extension does not use remote code. All files, scripts, and libraries are packaged locally within the extension ZIP file.",
         "dataUsageCertified": true,
         "permissionJustifications": {
-          "storage": "Required to locally persist user zodiac sign selection, preferences, and horoscope viewing history directly on the device."
+          "storage": "Required to locally persist user zodiac sign selection, preferences, and horoscope viewing history directly on the device.",
+          "search": "Uses chrome.search.query to run searches the user types into the new tab search box through the user's default search engine, instead of a hardcoded search provider."
         }
       }
     }
