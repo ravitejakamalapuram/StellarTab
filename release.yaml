@@ -1,0 +1,15 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/ravitejakamalapuram/release-platform/main/schema/release.schema.json
+# Release contract for ravitejakamalapuram/release-platform@v2 (keyless Chrome Web Store publishing).
+# The repo root is the extension; `include` is an allowlist so store assets and docs never ship.
+app: stellartab
+targets:
+  - type: chrome
+    item_id: efpigokkcblmjdnameafogblekknbhdc
+    path: .
+    include:
+      - manifest.json
+      - background.js
+      - icons/icon-16.png
+      - icons/icon-48.png
+      - icons/icon-128.png # icon-512.png (1 MB) is a store asset, not referenced at runtime
+      - newtab
