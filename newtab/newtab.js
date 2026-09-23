@@ -1181,20 +1181,18 @@ function setupEventListeners() {
   // Resize listener to fix tab sliding pill offset
   window.addEventListener('resize', updateTabSliderPosition);
 
-  // Cosmic Search Submit using Chrome Search API (respects user default search engine)
+  // Cosmic Search Submit using the Chrome Search API, which always uses the user's
+  // default search engine. Never fall back to a hardcoded engine URL: the Chrome Web
+  // Store rejects new tab pages that change the search experience ("Red Argon").
   searchForm.addEventListener('submit', (e) => {
     e.preventDefault();
     const query = searchInput.value.trim();
     if (!query) return;
 
-    if (typeof chrome !== 'undefined' && chrome.search && chrome.search.query) {
-      chrome.search.query({
-        text: query,
-        disposition: 'CURRENT_TAB'
-      });
-    } else {
-      window.location.href = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
-    }
+    chrome.search.query({
+      text: query,
+      disposition: 'CURRENT_TAB'
+    });
   });
 
   // Zodiac Wheel Pointer Drag and Rotate Actions

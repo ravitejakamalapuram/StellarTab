@@ -12,6 +12,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   uses `chrome.search.query`, so searches go through the user's default search
   engine instead of a hardcoded provider. Adds the `search` permission and
   removes the search-engine setting.
+- Removed the last hardcoded `google.com/search` fallback from the search box,
+  which the Sep 22 review still flagged as changing the search experience.
 
 ### Changed
 - Store metadata cleanup: corrected the privacy policy URL, added the `search`
