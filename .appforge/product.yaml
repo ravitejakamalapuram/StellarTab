@@ -1,0 +1,34 @@
+# Backfilled by the AppForge factory (P1-07). Fields marked null are not yet knowable —
+# they depend on infrastructure (appforge-control, appforge-edge, Paperclip) not built yet.
+product_id: stellartab
+name: StellarTab
+description: "Cosmic Dashboard for your New Tab. Get daily horoscopes, track cosmic mood meters, and play constellation mini-games."
+platform: [chrome]
+state: PRODUCTION
+portfolio_state: MAINTENANCE
+repository: ravitejakamalapuram/StellarTab
+owner: founder
+team: []
+architecture: null
+analytics_project: null
+store_ids:
+  cws: efpigokkcblmjdnameafogblekknbhdc
+monetization:
+  model: free
+permissions: .appforge/permissions.yaml
+data_collection:
+  collected: []
+  stored:
+    local: [chrome_storage_local_name_zodiac_theme_language]
+    remote: []
+  transmitted:
+    endpoints: [] # no fetch/XHR anywhere in the extension; Google Fonts <link> tags are static CSS loads, not data calls
+  sensitive: []
+  third_party: []
+  retention: { local: indefinite_until_user_clears, remote: none }
+  deletion: "Uninstall clears all local storage"
+security_classification: low
+release_channel: default
+current_version: "1.0.3"
+kill_policy: null
+scale_policy: null
