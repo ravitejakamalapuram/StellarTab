@@ -419,63 +419,6 @@ body {
   gap: 25px;
 }
 
-/* Cosmic Search bar Card */
-.search-card {
-  padding: 8px;
-}
-
-.cosmic-search-form {
-  display: flex;
-  align-items: center;
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.03);
-  overflow: hidden;
-  padding-right: 6px;
-  transition: border-color var(--transition-smooth), box-shadow var(--transition-smooth);
-}
-
-.cosmic-search-form:focus-within {
-  border-color: var(--accent);
-  box-shadow: 0 0 12px var(--accent-glow);
-}
-
-.cosmic-search-form input {
-  flex: 1;
-  background: transparent;
-  border: none;
-  padding: 12px 18px;
-  font-family: var(--font-sans);
-  color: #fff;
-  font-size: 0.95rem;
-}
-
-.cosmic-search-form input:focus {
-  outline: none;
-}
-
-.search-submit {
-  background: transparent;
-  border: none;
-  color: var(--text-muted);
-  cursor: pointer;
-  padding: 8px;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all var(--transition-smooth);
-}
-
-.cosmic-search-form:focus-within .search-submit {
-  color: var(--accent);
-}
-
-.search-submit:hover {
-  background: rgba(255, 255, 255, 0.05);
-  color: #fff;
-}
-
 /* Zodiac Wheel Card */
 .zodiac-wheel-card {
   padding: 30px;
@@ -1162,7 +1105,7 @@ html:active-view-transition-type(backward)::view-transition-new(root) {
     align-items: center;
   }
   
-  .search-card, .zodiac-wheel-card {
+  .zodiac-wheel-card {
     width: 100%;
     max-width: 500px;
   }

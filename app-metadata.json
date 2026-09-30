@@ -24,8 +24,7 @@
         "remoteCodeJustification": "The extension does not use remote code. All files, scripts, and libraries are packaged locally within the extension ZIP file.",
         "dataUsageCertified": true,
         "permissionJustifications": {
-          "storage": "Required to locally persist user zodiac sign selection, preferences, and horoscope viewing history directly on the device.",
-          "search": "Uses chrome.search.query to run searches the user types into the new tab search box through the user's default search engine, instead of a hardcoded search provider."
+          "storage": "Required to locally persist user zodiac sign selection, preferences, and horoscope viewing history directly on the device."
         }
       }
     }

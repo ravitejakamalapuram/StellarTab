@@ -35,6 +35,3 @@ StellarTab replaces the default Chrome new tab page with an interactive astrolog
 
 ### storage
 Required to locally persist user zodiac sign selection, preferences, and horoscope viewing history directly on the device.
-
-### search
-Uses chrome.search.query to run searches the user types into the new tab search box through the user's default search engine, instead of a hardcoded search provider.
