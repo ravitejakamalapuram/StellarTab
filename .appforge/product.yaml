@@ -15,7 +15,8 @@ portfolio_state: MAINTENANCE
 # also wrong for json-workbench, and TelePort's product.yaml states
 # outright that it is not authoritative). Confirm against the live CWS
 # listing in the founder session.
-store_item_status: published
+# CORRECTED 2026-09-30 (the earlier value was inferred from repo files and was wrong): CWS dashboard 2026-09-30: v1.1.6 status is REJECTED (never live), so no day-N clock runs.
+store_item_status: unpublished
 # UNRECOVERABLE from repo evidence — backfill from the CWS listing.
 first_published: null
 repository: ravitejakamalapuram/StellarTab
