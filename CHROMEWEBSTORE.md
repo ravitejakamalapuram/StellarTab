@@ -47,7 +47,6 @@ Google review requires specific plain-English justification for each declared pe
 | Permission | Used in Code? | Sample Evidence | Required? | Risk | Plain-English Review Justification |
 | :--- | :---: | :--- | :---: | :---: | :--- |
 | `storage` | Yes | background.js:4 | Yes | LOW | Required to locally persist user zodiac sign selection, preferences, and horoscope viewing history directly on the device. |
-| `search` | Yes | newtab/newtab.js | Yes | LOW | Uses chrome.search.query to execute user-initiated searches through the user's default browser search engine from the new tab page, strictly complying with the Chrome Web Store Single Purpose policy (Red Argon). |
 
 ---
 
@@ -86,7 +85,7 @@ Google review requires specific plain-English justification for each declared pe
 - [x] Distributable archive contains `manifest.json` at root
 - [x] Extension registered in Chrome Web Store Developer Dashboard
 - [x] Branding guidelines & safe zones verified
-- [x] Single purpose compliance (Red Argon resolved via chrome.search.query)
+- [x] Single purpose compliance (Red Argon: new-tab search box removed entirely; no `search` permission)
 - [x] Verified HTTPS Privacy Policy live on GitHub Pages
 
 ---
@@ -96,4 +95,5 @@ Google review requires specific plain-English justification for each declared pe
 | Version | Date | Status | Package ZIP | Notes |
 | :--- | :--- | :--- | :--- | :--- |
 | `1.0.1` | 2026-09-22 | Rejected | `chrome-store/builds/stellartab-v1.0.1.zip` | Rejected under Red Argon (hardcoded search URLs instead of Chrome Search API) |
-| `1.0.3` | 2026-09-22 | Pending review | `chrome-store/builds/stellartab-v1.0.3.zip` | Added `search` permission, implemented `chrome.search.query` to respect default search engine, removed settings override, and updated GitHub Pages privacy URL |
+| `1.0.3` | 2026-09-22 | Rejected (v1.1.6, 2026-09-24, Red Argon) | `chrome-store/builds/stellartab-v1.0.3.zip` | Added `search` permission, implemented `chrome.search.query` to respect default search engine, removed settings override, and updated GitHub Pages privacy URL |
+| _next_ | - | Pending | - | Removed the new-tab search box and the `search` permission so the extension only overrides the new tab page (single purpose) |

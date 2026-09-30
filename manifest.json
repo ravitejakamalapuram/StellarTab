@@ -12,8 +12,7 @@
     "newtab": "newtab/newtab.html"
   },
   "permissions": [
-    "storage",
-    "search"
+    "storage"
   ],
   "background": {
     "service_worker": "background.js"

@@ -60,8 +60,6 @@ const userDisplayName = document.getElementById('user-display-name');
 const clockEl = document.getElementById('astral-clock');
 const dateEl = document.getElementById('astral-date');
 
-const searchForm = document.getElementById('cosmic-search-form');
-const searchInput = document.getElementById('search-input');
 
 const zodiacSvgWheel = document.getElementById('zodiac-svg-wheel');
 const wheelSpinGroup = document.getElementById('wheel-spin-group');
@@ -131,7 +129,6 @@ const UI_TRANSLATIONS = {
     onboardingLangLbl: "Preferred Language",
     onboardingSignLbl: "Select your celestial birth sign",
     onboardingSubmitBtn: "Step into the Cosmos",
-    searchPlaceholder: "Search the stellar expanse...",
     wheelTitle: "Celestial Zodiac Wheel",
     wheelInstruction: "Drag or click to spin & explore other signs",
     tabDaily: "Today",
@@ -156,7 +153,6 @@ const UI_TRANSLATIONS = {
     settingsTitle: "Celestial Options",
     settingsNameLbl: "Stargazer Name",
     settingsZodiacLbl: "Zodiac Sign",
-    settingsSearchLbl: "Search Engine",
     settingsThemeLbl: "Dashboard Theme",
     settingsLangLbl: "Language",
     settingsShowVedicLbl: "Enable Vedic Muhurthas (Admin)",
@@ -178,7 +174,6 @@ const UI_TRANSLATIONS = {
     onboardingLangLbl: "ప్రాధాన్య భాష",
     onboardingSignLbl: "మీ ఖగోళ జన్మ రాశిని ఎంచుకోండి",
     onboardingSubmitBtn: "విశ్వంలోకి అడుగు పెట్టండి",
-    searchPlaceholder: "నక్షత్ర విశ్వంలో శోధించండి...",
     wheelTitle: "ఖగోళ రాశిచక్ర చక్రం",
     wheelInstruction: "ఇతర రాశులను అన్వేషించడానికి తిప్పండి లేదా క్లిక్ చేయండి",
     tabDaily: "ఈ రోజు",
@@ -203,7 +198,6 @@ const UI_TRANSLATIONS = {
     settingsTitle: "ఖగోళ ఎంపికలు",
     settingsNameLbl: "నక్షత్ర వీక్షకుడి పేరు",
     settingsZodiacLbl: "రాశి చక్రం",
-    settingsSearchLbl: "శోధన యంత్రం",
     settingsThemeLbl: "డాష్‌బోర్డ్ థీమ్",
     settingsLangLbl: "భాష",
     settingsShowVedicLbl: "వేద ముహూర్తాలను ప్రారంభించండి (అడ్మిన్)",
@@ -225,7 +219,6 @@ const UI_TRANSLATIONS = {
     onboardingLangLbl: "पसंदीदा भाषा",
     onboardingSignLbl: "अपनी खगोलीय जन्म राशि चुनें",
     onboardingSubmitBtn: "ब्रह्मांड में कदम रखें",
-    searchPlaceholder: "तारकीय ब्रह्मांड में खोजें...",
     wheelTitle: "खगोलीय राशि चक्र",
     wheelInstruction: "घुमाने और अन्य राशियों का पता लगाने के लिए खींचें या क्लिक करें",
     tabDaily: "आज",
@@ -250,7 +243,6 @@ const UI_TRANSLATIONS = {
     settingsTitle: "खगोलीय विकल्प",
     settingsNameLbl: "तारादर्शक का नाम",
     settingsZodiacLbl: "राशि चक्र",
-    settingsSearchLbl: "सर्च इंजन",
     settingsThemeLbl: "डैशबोर्ड थीम",
     settingsLangLbl: "भाषा",
     settingsShowVedicLbl: "वैदिक मुहूर्त सक्षम करें (एडमिन)",
@@ -272,7 +264,6 @@ const UI_TRANSLATIONS = {
     onboardingLangLbl: "Idioma Preferido",
     onboardingSignLbl: "Selecciona tu signo zodiacal celestial",
     onboardingSubmitBtn: "Paso al Cosmos",
-    searchPlaceholder: "Busca en la extensión estelar...",
     wheelTitle: "Rueda del Zodíaco Celestial",
     wheelInstruction: "Arrastra o haz clic para girar y explorar otros signos",
     tabDaily: "Hoy",
@@ -297,7 +288,6 @@ const UI_TRANSLATIONS = {
     settingsTitle: "Opciones Celestiales",
     settingsNameLbl: "Nombre de Observador",
     settingsZodiacLbl: "Signo del Zodíaco",
-    settingsSearchLbl: "Motor de Búsqueda",
     settingsThemeLbl: "Tema del Panel",
     settingsLangLbl: "Idioma",
     settingsShowVedicLbl: "Habilitar Vedic Muhurthas (Admin)",
@@ -384,8 +374,6 @@ function applyLanguageUI(lang) {
   const onboardingSubmitBtn = document.getElementById('onboarding-submit-btn');
   if (onboardingSubmitBtn) onboardingSubmitBtn.textContent = t.onboardingSubmitBtn;
   
-  // Search
-  if (searchInput) searchInput.placeholder = t.searchPlaceholder;
   
   // Wheel Card
   const wheelTitle = document.querySelector('.wheel-title');
@@ -1180,20 +1168,6 @@ function setupEventListeners() {
 
   // Resize listener to fix tab sliding pill offset
   window.addEventListener('resize', updateTabSliderPosition);
-
-  // Cosmic Search Submit using the Chrome Search API, which always uses the user's
-  // default search engine. Never fall back to a hardcoded engine URL: the Chrome Web
-  // Store rejects new tab pages that change the search experience ("Red Argon").
-  searchForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const query = searchInput.value.trim();
-    if (!query) return;
-
-    chrome.search.query({
-      text: query,
-      disposition: 'CURRENT_TAB'
-    });
-  });
 
   // Zodiac Wheel Pointer Drag and Rotate Actions
   let hasMoved = false;

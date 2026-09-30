@@ -5,8 +5,3 @@ permissions:
     reason: "Persist the user's name, zodiac sign, theme, language, and Vedic toggle locally"
     data_access: [user_settings_local]
     security_impact: low
-  - permission: search
-    required: true
-    reason: "Route the new-tab search box through the user's default search engine via chrome.search.query, instead of a hardcoded provider (added in 1.0.3 specifically to replace a hardcoded google.com fallback that caused a store rejection)"
-    data_access: [search_query_user_triggered]
-    security_impact: low

@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Removed
+- Chrome Web Store compliance (Red Argon, "changes to both the new tab page and
+  the user's search experience"): removed the new tab search box entirely, along
+  with its `chrome.search.query` handler and styles. StellarTab now has a single
+  purpose: a horoscope / cosmic dashboard new tab page.
+- Removed the `search` permission (now only `storage`).
+
 ## [1.0.3] - 2026-09-23
 
 ### Fixed
